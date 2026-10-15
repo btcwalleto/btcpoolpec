@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eaf5ff">
+<title>BTCPOOL | Bitcoin Mining Pool</title>
+<style>
+:root{
+ --bg:#eaf5ff;--card:#fff;--soft:#f4f9ff;--border:#d5e6f5;
+ --text:#17324d;--muted:#6d849b;--accent:#1688e8;--accent2:#dff0ff;
+ --good:#13895e;--bad:#d94354;--shadow:0 5px 22px rgba(34,92,143,.07)
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px Arial,Helvetica,sans-serif}
+button,input{font:inherit}
+button{cursor:pointer}
+.wrap{max-width:1750px;margin:auto;padding:20px}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:44px;height:44px;display:grid;place-items:center;border-radius:13px;background:var(--accent);color:#fff;font-size:26px;font-weight:bold}
+h1{font-size:23px;letter-spacing:.6px;margin:0}
+.subtitle{font-size:12px;color:var(--muted);margin-top:5px}
+.header-right{text-align:right;color:var(--muted);font-size:11px}
+.header-right strong{display:block;color:var(--text);font-size:13px;margin-top:5px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:24px 0 12px}
+.section-head h2{font-size:16px;margin:0}
+.panel,.metric{background:var(--card);border:1px solid var(--border);border-radius:13px;box-shadow:var(--shadow)}
+.panel{padding:18px;min-width:0}
+.grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.metric{padding:16px;min-width:0}
+.metric-label{color:var(--muted);font-size:12px;margin-bottom:12px}
+.metric-value{font-size:clamp(17px,1.6vw,25px);font-weight:700;overflow-wrap:anywhere}
+.metric-foot{font-size:11px;color:var(--muted);margin-top:9px}
+.green{color:var(--good)}.red{color:var(--bad)}.muted{color:var(--muted)}
+.two-col{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,1fr);gap:14px}
+.rowline{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
+.rowline:last-child{border-bottom:0}
+.rowline>span:first-child{color:var(--muted)}
+.rowline strong{text-align:right;overflow-wrap:anywhere}
+.field-label{display:block;color:var(--muted);font-size:12px;margin:14px 0 7px}
+input{width:100%;background:var(--soft);border:1px solid var(--border);border-radius:9px;padding:12px;color:var(--text);outline:none}
+input:focus{border-color:var(--accent)}
+.btn{background:var(--accent);color:white;border:1px solid var(--accent);border-radius:9px;padding:11px 15px;font-weight:600}
+.btn.secondary{background:var(--soft);color:var(--text);border-color:var(--border)}
+.btn.small{padding:7px 10px;font-size:11px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.badge{display:inline-block;background:var(--accent2);color:var(--accent);padding:5px 9px;border-radius:20px;font-size:11px}
+.notice{padding:12px;background:var(--soft);border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:12px;line-height:1.65;margin-top:13px}
+.server{padding:13px 0;border-bottom:1px solid var(--border)}
+.server:last-of-type{border-bottom:0}
+.server-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}
+.server-title{font-weight:bold}
+.endpoint{display:flex;align-items:center;justify-content:space-between;gap:9px}
+code{font-family:ui-monospace,Consolas,monospace;font-size:12px;white-space:normal;overflow-wrap:anywhere}
+#loginView{max-width:520px;margin:55px auto}
+#loginView .panel{padding:25px}
+#loginView h2{margin:0 0 9px;font-size:21px}
+#dashboard{display:none}
+.theme-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-top:12px}
+.theme-btn{padding:10px 5px;border:1px solid var(--border);border-radius:9px;background:var(--soft);color:var(--text);font-size:11px}
+.theme-btn.active{outline:2px solid var(--accent);outline-offset:1px}
+.swatch{height:18px;border-radius:5px;margin-bottom:6px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--border);overflow-wrap:anywhere}
+th{color:var(--muted);font-weight:600}
+footer{text-align:center;color:var(--muted);font-size:11px;border-top:1px solid var(--border);padding:18px 0;margin-top:26px}
+#message{font-size:12px;line-height:1.65;margin-top:12px;white-space:pre-wrap}
+#errorBox{color:var(--bad)}
+@media(max-width:1200px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:780px){
+ .wrap{padding:13px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .metric{padding:13px}.metric-value{font-size:19px}.two-col{grid-template-columns:1fr}
+ .theme-list{grid-template-columns:repeat(2,minmax(0,1fr))}#loginView{margin:28px auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+ <div class="brand">
+  <div class="logo">₿</div>
+  <div><h1>BTCPOOL</h1><div class="subtitle">Bitcoin Mining Pool Dashboard</div></div>
+ </div>
+ <div class="header-right">ACCOUNT<strong id="headerAccount">Not signed in</strong></div>
+</header>
+
+<section id="loginView">
+ <div class="panel">
+  <h2>Open Your Miner Dashboard</h2>
+  <p class="muted">Enter your Bitcoin address to open your dashboard.</p>
+  <label class="field-label" for="loginAddress">Bitcoin Address</label>
+  <input id="loginAddress" autocomplete="off" spellcheck="false" placeholder="Enter your BTC address">
+  <div class="actions"><button class="btn" id="loginButton">Continue</button></div>
+  <div class="notice">Worker username: <code>btpool.YOUR_BTC_ADDRESS</code><br>Worker password: <code>x</code><br>Never enter your private key or recovery phrase.</div>
+  <div id="loginMessage" class="muted"></div>
+ </div>
+</section>
+
+<main id="dashboard">
+ <div class="section-head"><h2>Mining Overview</h2><span class="badge" id="apiStatus">API not connected</span></div>
+ <div class="grid">
+  <div class="metric"><div class="metric-label">Estimated Balance</div><div class="metric-value" id="balance">—</div><div class="metric-foot">BTC · cumulative</div></div>
+  <div class="metric"><div class="metric-label">Estimated Earnings · 24h</div><div class="metric-value" id="earnings24">—</div><div class="metric-foot">BTC · awaiting pool API</div></div>
+  <div class="metric"><div class="metric-label">Hashrate · 1 Hour</div><div class="metric-value" id="hash1h">—</div><div class="metric-foot">Miner hashrate</div></div>
+  <div class="metric"><div class="metric-label">Hashrate · 12 Hours</div><div class="metric-value" id="hash12h">—</div><div class="metric-foot">Miner hashrate</div></div>
+  <div class="metric"><div class="metric-label">Hashrate · 24 Hours</div><div class="metric-value" id="hash24h">—</div><div class="metric-foot">Miner hashrate</div></div>
+  <div class="metric"><div class="metric-label">Workers Online</div><div class="metric-value green" id="workersOnline">—</div><div class="metric-foot"><span id="workersOffline">—</span> offline</div></div>
+ </div>
+
+ <div class="section-head"><h2>Account Details</h2><span class="muted">Address-based account</span></div>
+ <div class="two-col">
+  <section class="panel">
+   <h3>Miner Statistics</h3>
+   <div class="rowline"><span>Account ID / BTC Address</span><strong id="accountAddress">—</strong></div>
+   <div class="rowline"><span>Total Workers</span><strong id="workersTotal">—</strong></div>
+   <div class="rowline"><span>Miner Status</span><strong id="minerStatus">Unknown</strong></div>
+   <div class="rowline"><span>Last Update</span><strong id="lastUpdate">—</strong></div>
+   <div class="rowline"><span>Minimum Payout</span><strong>0.001 BTC</strong></div>
+   <div class="rowline"><span>Bitcoin Payout Address</span><strong id="payoutAddress">—</strong></div>
+   <div class="notice">Real mining statistics and earnings will appear after the pool API is connected. Offline status alone does not mean the unpaid balance is zero.</div>
+  </section>
+
+  <section class="panel">
+   <h3>Miner Connection Guide</h3>
+   <p class="muted">Choose a server and enter the worker details in your mining device.</p>
+   <div class="server">
+    <div class="server-top"><span class="server-title">Russia</span><span class="badge">3333</span></div>
+    <div class="endpoint"><code>stratum+tcp://btc-ru.pecpool.com:3333</code><button class="btn secondary small copy" data-copy="stratum+tcp://btc-ru.pecpool.com:3333">Copy</button></div>
+   </div>
+   <div class="server">
+    <div class="server-top"><span class="server-title">Iran</span><span class="badge">8443</span></div>
+    <div class="endpoint"><code>stratum+tcp://btc-ir.pecpool.com:8443</code><button class="btn secondary small copy" data-copy="stratum+tcp://btc-ir.pecpool.com:8443">Copy</button></div>
+   </div>
+   <div class="server">
+    <div class="server-top"><span class="server-title">Asia</span><span class="badge">8443</span></div>
+    <div class="endpoint"><code>stratum+tcp://btc-as.pecpool.com:8443</code><button class="btn secondary small copy" data-copy="stratum+tcp://btc-as.pecpool.com:8443">Copy</button></div>
+   </div>
+   <label class="field-label">Worker Username</label>
+   <div class="endpoint"><code id="workerUsername">btpool.YOUR_BTC_ADDRESS</code><button class="btn secondary small" id="copyUsername">Copy</button></div>
+   <label class="field-label">Worker Password</label>
+   <div class="endpoint"><code>x</code><button class="btn secondary small copy" data-copy="x">Copy</button></div>
+   <div class="notice">Worker format is <code>btpool.</code> followed by your address. These are PECPool endpoints, not independent BTCPOOL servers.</div>
+  </section>
+ </div>
+
+ <div class="section-head"><h2>Payments</h2><span class="muted">Pool-reported information only</span></div>
+ <section class="panel">
+  <div class="rowline"><span>Automatic Payout Threshold</span><strong>0.001 BTC</strong></div>
+  <div class="rowline"><span>Estimated Balance</span><strong id="paymentBalance">—</strong></div>
+  <div class="rowline"><span>Payment Status</span><strong id="paymentStatus">Not connected</strong></div>
+  <div class="notice">Automatic payouts require a real payout system operated by the backend or pool. This website alone cannot send Bitcoin. The threshold shown here is a requested setting, not proof that automatic payments are enabled.</div>
+  <h3 style="margin-top:22px">Payment Transactions</h3>
+  <div class="table-wrap"><table><thead><tr><th>Date</th><th>Amount (BTC)</th><th>Status</th><th>Transaction ID</th></tr></thead><tbody id="transactions"><tr><td colspan="4" class="muted">Connect the pool API to load transactions.</td></tr></tbody></table></div>
+ </section>
+
+ <div class="section-head" id="settings"><h2>Settings</h2><span class="muted">At the bottom of the dashboard</span></div>
+ <section class="panel">
+  <h3>Color Themes</h3>
+  <p class="muted">Choose your preferred dashboard colors.</p>
+  <div class="theme-list">
+   <button class="theme-btn active" data-theme="ice"><div class="swatch" style="background:#eaf5ff"></div>Ice Blue</button>
+   <button class="theme-btn" data-theme="sky"><div class="swatch" style="background:#dceeff"></div>Sky</button>
+   <button class="theme-btn" data-theme="mint"><div class="swatch" style="background:#e5f8ef"></div>Mint</button>
+   <button class="theme-btn" data-theme="lavender"><div class="swatch" style="background:#f0edff"></div>Lavender</button>
+   <button class="theme-btn" data-theme="rose"><div class="swatch" style="background:#fff0f2"></div>Rose</button>
+   <button class="theme-btn" data-theme="sand"><div class="swatch" style="background:#fbf2e3"></div>Sand</button>
+   <button class="theme-btn" data-theme="dark"><div class="swatch" style="background:#101827"></div>Dark</button>
+   <button class="theme-btn" data-theme="navy"><div class="swatch" style="background:#e5ecff"></div>Navy Blue</button>
+   <button class="theme-btn" data-theme="teal"><div class="swatch" style="background:#e0f7f6"></div>Teal</button>
+   <button class="theme-btn" data-theme="graphite"><div class="swatch" style="background:#e9edf2"></div>Graphite</button>
+  </div>
+  <h3 style="margin-top:25px">Account Settings</h3>
+  <div class="rowline"><span>Fixed Account / BTC Address</span><strong id="settingsAddress">—</strong></div>
+  <div class="rowline"><span>Worker Username</span><strong id="settingsWorker">—</strong></div>
+  <div class="actions">
+   <button class="btn secondary" id="refreshButton">Refresh Statistics</button>
+   <button class="btn secondary" id="logoutButton">Log Out</button>
+  </div>
+  <div id="message" class="muted"></div>
+ </section>
+</main>
+<footer>BTCPOOL · Bitcoin Mining Dashboard</footer>
+</div>
+
+<script>
+"use strict";
+
+/*
+  FRONTEND-ONLY STARTER
+  No API credentials or admin password are stored here.
+  Account entry is a convenience, NOT secure authentication.
+  Live pool statistics, admin access, transaction history, and automatic
+  payouts require a secure backend and are intentionally not fabricated.
+*/
+
+const $ = id => document.getElementById(id);
+
+const themes = {
+ ice:{bg:"#eaf5ff",card:"#fff",soft:"#f4f9ff",border:"#d5e6f5",text:"#17324d",muted:"#6d849b",accent:"#1688e8",accent2:"#dff0ff",good:"#13895e",bad:"#d94354",shadow:"0 5px 22px rgba(34,92,143,.07)"},
+ sky:{bg:"#dceeff",card:"#fafdff",soft:"#edf7ff",border:"#bfdcf5",text:"#123b60",muted:"#547894",accent:"#0876cf",accent2:"#d3eaff",good:"#087d56",bad:"#c8384b",shadow:"0 5px 22px rgba(20,90,150,.08)"},
+ mint:{bg:"#e5f8ef",card:"#fff",soft:"#f1fbf6",border:"#cbe9d9",text:"#204638",muted:"#6b8b7b",accent:"#15976b",accent2:"#d8f5e7",good:"#128257",bad:"#c93f50",shadow:"0 5px 22px rgba(25,110,80,.07)"},
+ lavender:{bg:"#f0edff",card:"#fff",soft:"#f7f5ff",border:"#dcd6fa",text:"#342c59",muted:"#8179a2",accent:"#7761df",accent2:"#e9e4ff",good:"#16845e",bad:"#d04457",shadow:"0 5px 22px rgba(95,75,160,.07)"},
+ rose:{bg:"#fff0f2",card:"#fff",soft:"#fff7f8",border:"#f3d6dc",text:"#512c37",muted:"#9a737e",accent:"#d74c73",accent2:"#ffe1e9",good:"#15835e",bad:"#cb344c",shadow:"0 5px 22px rgba(150,60,90,.06)"},
+ sand:{bg:"#fbf2e3",card:"#fffdf8",soft:"#fff8eb",border:"#eadcc4",text:"#493b29",muted:"#938069",accent:"#b77928",accent2:"#f7e6c8",good:"#278058",bad:"#cb4a4a",shadow:"0 5px 22px rgba(130,90,35,.06)"},
+ dark:{bg:"#0b1220",card:"#111c2d",soft:"#0d1726",border:"#27364c",text:"#edf4ff",muted:"#8da0ba",accent:"#55a7ff",accent2:"#183453",good:"#40d6a0",bad:"#ff7280",shadow:"0 5px 22px rgba(0,0,0,.14)"},
+ navy:{bg:"#e5ecff",card:"#fff",soft:"#f1f4ff",border:"#cbd6f5",text:"#1b2e58",muted:"#7181a8",accent:"#355dc8",accent2:"#dce5ff",good:"#14855d",bad:"#ce4353",shadow:"0 5px 22px rgba(40,65,140,.07)"},
+ teal:{bg:"#e0f7f6",card:"#fff",soft:"#effbfa",border:"#c7e9e7",text:"#174342",muted:"#658987",accent:"#078f91",accent2:"#d3f3f0",good:"#16855d",bad:"#d04353",shadow:"0 5px 22px rgba(10,110,110,.06)"},
+ graphite:{bg:"#e9edf2",card:"#fff",soft:"#f5f7fa",border:"#d3dbe5",text:"#263342",muted:"#788594",accent:"#536b84",accent2:"#dfe7f0",good:"#18805a",bad:"#c84151",shadow:"0 5px 22px rgba(35,50,70,.07)"}
+};
+
+function applyTheme(name){
+ const t=themes[name]||themes.ice;
+ const css={bg:"--bg",card:"--card",soft:"--soft",border:"--border",text:"--text",muted:"--muted",accent:"--accent",accent2:"--accent2",good:"--good",bad:"--bad",shadow:"--shadow"};
+ Object.entries(t).forEach(([k,v])=>document.documentElement.style.setProperty(css[k],v));
+ localStorage.setItem("btcpool_theme",name);
+ document.querySelectorAll(".theme-btn").forEach(b=>b.classList.toggle("active",b.dataset.theme===name));
+}
+document.querySelectorAll(".theme-btn").forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.theme)));
+applyTheme(localStorage.getItem("btcpool_theme")||"ice");
+
+function validAddress(a){
+ return /^(bc1[ac-hj-np-z02-9]{11,87}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/i.test(a);
+}
+
+let currentAddress="";
+function openDashboard(){
+ const a=$("loginAddress").value.trim();
+ if(!validAddress(a)){
+  $("loginMessage").textContent="Please enter a valid Bitcoin address.";
+  return;
+ }
+ currentAddress=a;
+ $("loginView").style.display="none";
+ $("dashboard").style.display="block";
+ $("headerAccount").textContent=a.slice(0,8)+"…"+a.slice(-5);
+ $("accountAddress").textContent=a;
+ $("payoutAddress").textContent=a;
+ $("settingsAddress").textContent=a;
+ $("workerUsername").textContent="btpool."+a;
+ $("settingsWorker").textContent="btpool."+a;
+ $("apiStatus").textContent="API not connected";
+ $("message").textContent="Dashboard ready. Live mining statistics will be available after the pool API is connected.";
+}
+$("loginButton").addEventListener("click",openDashboard);
+$("loginAddress").addEventListener("keydown",e=>{if(e.key==="Enter")openDashboard()});
+
+function copyText(text){
+ if(navigator.clipboard && window.isSecureContext){
+  return navigator.clipboard.writeText(text);
+ }
+ return new Promise((resolve,reject)=>{
+  const el=document.createElement("textarea");
+  el.value=text;document.body.appendChild(el);el.select();
+  const ok=document.execCommand("copy");el.remove();
+  ok?resolve():reject(new Error("Copy failed"));
+ });
+}
+document.querySelectorAll("[data-copy]").forEach(b=>{
+ b.addEventListener("click",async()=>{
+  const old=b.textContent;
+  try{await copyText(b.dataset.copy);b.textContent="Copied";}
+  catch(e){b.textContent="Failed";}
+  setTimeout(()=>b.textContent=old,1200);
+ });
+});
+$("copyUsername").addEventListener("click",async()=>{
+ const b=$("copyUsername"),old=b.textContent;
+ try{await copyText($("workerUsername").textContent);b.textContent="Copied";}
+ catch(e){b.textContent="Failed";}
+ setTimeout(()=>b.textContent=old,1200);
+});
+
+$("refreshButton").addEventListener("click",()=>{
+ $("apiStatus").textContent="API not connected";
+ $("message").textContent="No pool API is configured yet. No live statistics or earnings have been invented.";
+});
+$("logoutButton").addEventListener("click",()=>{
+ currentAddress="";
+ $("dashboard").style.display="none";
+ $("loginView").style.display="block";
+ $("loginAddress").value="";
+ $("loginMessage").textContent="You have logged out.";
+ $("headerAccount").textContent="Not signed in";
+});
+</script>
+</body>
+</html>
