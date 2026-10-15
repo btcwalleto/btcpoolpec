@@ -1,1210 +1,566 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#101c32">
-  <title>BTCPOOL | Bitcoin Mining Pool</title>
-
-  <style>
-    :root {
-      --bg: #eef4fb;
-      --panel: #ffffff;
-      --panel2: #f5f8fc;
-      --text: #172b46;
-      --muted: #73849c;
-      --border: #dce5f0;
-      --accent: #2377ee;
-      --accent2: #17b890;
-      --danger: #e34d59;
-      --shadow: 0 8px 28px rgba(28, 52, 86, .07);
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-      transition: background .2s, color .2s;
-    }
-
-    button, input, select {
-      font: inherit;
-    }
-
-    button { cursor: pointer; }
-
-    .app {
-      width: min(1250px, 100%);
-      margin: auto;
-      padding: 20px;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 22px;
-      flex-wrap: wrap;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo {
-      width: 46px;
-      height: 46px;
-      display: grid;
-      place-items: center;
-      border-radius: 14px;
-      color: white;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      font-size: 22px;
-      font-weight: 900;
-    }
-
-    h1, h2, h3, p { margin-top: 0; }
-
-    h1 {
-      font-size: 22px;
-      margin-bottom: 5px;
-    }
-
-    .subtitle, .muted {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: 1px solid var(--border);
-      background: var(--panel);
-      color: var(--text);
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-weight: 700;
-    }
-
-    .btn.primary {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-    }
-
-    .btn:disabled {
-      opacity: .55;
-      cursor: wait;
-    }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: var(--shadow);
-      min-width: 0;
-    }
-
-    .login-wrap {
-      max-width: 470px;
-      margin: 55px auto;
-    }
-
-    .login-wrap .panel { padding: 28px; }
-
-    .field { margin-bottom: 16px; }
-
-    .field label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .field input, .field select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--panel2);
-      color: var(--text);
-      outline: none;
-    }
-
-    .field input:focus, .field select:focus {
-      border-color: var(--accent);
-    }
-
-    .full { width: 100%; }
-
-    .notice {
-      border: 1px solid var(--border);
-      background: var(--panel2);
-      border-radius: 11px;
-      padding: 12px;
-      font-size: 12px;
-      line-height: 1.6;
-      color: var(--muted);
-      overflow-wrap: anywhere;
-    }
-
-    .status-line {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #9aa8ba;
-      display: inline-block;
-      flex-shrink: 0;
-    }
-
-    .dot.green { background: #16b982; }
-    .dot.red { background: var(--danger); }
-    .dot.yellow { background: #e5a52b; }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin: 18px 0;
-    }
-
-    .stat-card {
-      padding: 19px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      min-width: 0;
-      box-shadow: var(--shadow);
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 13px;
-    }
-
-    .stat-value {
-      font-size: clamp(18px, 2.5vw, 25px);
-      font-weight: 800;
-      overflow-wrap: anywhere;
-    }
-
-    .stat-note {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.5;
-    }
-
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-
-    .section-title h2 {
-      font-size: 17px;
-      margin: 0;
-    }
-
-    .content-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-    }
-
-    .detail-row:last-child { border-bottom: 0; }
-
-    .detail-row span:first-child { color: var(--muted); }
-
-    .detail-row strong {
-      text-align: right;
-      overflow-wrap: anywhere;
-    }
-
-    .server {
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      padding: 13px;
-      margin-bottom: 10px;
-    }
-
-    .server:last-child { margin-bottom: 0; }
-
-    .server-name {
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-
-    .server code {
-      font-size: 12px;
-      overflow-wrap: anywhere;
-      color: var(--accent);
-    }
-
-    .table-wrap { overflow-x: auto; }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-      min-width: 450px;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 12px 10px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    th {
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .theme-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .theme-btn {
-      min-height: 70px;
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      background: var(--panel2);
-      color: var(--text);
-      padding: 10px 5px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .theme-btn.active { border-color: var(--accent); }
-
-    .theme-swatch {
-      display: block;
-      width: 28px;
-      height: 16px;
-      border-radius: 5px;
-      margin: 0 auto 8px;
-    }
-
-    .footer {
-      text-align: center;
-      padding: 25px 10px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .hidden { display: none !important; }
-
-    .error {
-      color: var(--danger);
-      font-size: 12px;
-      line-height: 1.6;
-      margin-top: 12px;
-    }
-
-    .success { color: var(--accent2); }
-
-    @media (max-width: 800px) {
-      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .content-grid { grid-template-columns: 1fr; }
-      .theme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .app { padding: 13px; }
-    }
-
-    @media (max-width: 390px) {
-      .stats-grid { grid-template-columns: 1fr; }
-      .top-actions { width: 100%; }
-      .top-actions .btn { flex: 1; }
-    }
-
-    /* Ten themes */
-    body[data-theme="dark"] {
-      --bg: #0b1220; --panel: #131e30; --panel2: #19273b;
-      --text: #e9f0fa; --muted: #9aabc2; --border: #2a3a51;
-      --accent: #4a91ff; --accent2: #22d3a3;
-      --shadow: 0 8px 28px rgba(0,0,0,.15);
-    }
-
-    body[data-theme="green"] {
-      --bg: #edf7f0; --panel: #fff; --panel2: #f2faf4;
-      --text: #173a28; --muted: #688675; --border: #d5e8da;
-      --accent: #17844a; --accent2: #20ad83;
-    }
-
-    body[data-theme="purple"] {
-      --bg: #f4f0fb; --panel: #fff; --panel2: #f8f5fd;
-      --text: #302044; --muted: #88789d; --border: #e4daef;
-      --accent: #8252d6; --accent2: #bd65d9;
-    }
-
-    body[data-theme="orange"] {
-      --bg: #fff5ec; --panel: #fff; --panel2: #fff8f1;
-      --text: #492d1b; --muted: #9a7d67; --border: #f0dfcf;
-      --accent: #e47a21; --accent2: #16ad88;
-    }
-
-    body[data-theme="red"] {
-      --bg: #fff0f1; --panel: #fff; --panel2: #fff6f6;
-      --text: #452126; --muted: #9a777d; --border: #f0d8dc;
-      --accent: #d94255; --accent2: #19aa83;
-    }
-
-    body[data-theme="cyan"] {
-      --bg: #eaf8fb; --panel: #fff; --panel2: #f2fbfd;
-      --text: #153641; --muted: #6e8d97; --border: #d3eaf0;
-      --accent: #0797b7; --accent2: #16b68b;
-    }
-
-    body[data-theme="gold"] {
-      --bg: #faf6e9; --panel: #fffdf7; --panel2: #fbf7eb;
-      --text: #40361d; --muted: #918365; --border: #e9dfc4;
-      --accent: #ad841c; --accent2: #259b75;
-    }
-
-    body[data-theme="rose"] {
-      --bg: #fff0f6; --panel: #fff; --panel2: #fff7fa;
-      --text: #49243a; --muted: #9b7890; --border: #f0d9e6;
-      --accent: #d94d91; --accent2: #17ad88;
-    }
-
-    body[data-theme="slate"] {
-      --bg: #e9edf2; --panel: #fff; --panel2: #f4f6f9;
-      --text: #263442; --muted: #7b8996; --border: #d7dfe7;
-      --accent: #526c87; --accent2: #1aa584;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>BTCPOOL | Bitcoin Mining Pool</title>
+<style>
+:root {
+  --bg:#0b1220; --panel:#121d2e; --panel2:#18263a;
+  --text:#eef4ff; --muted:#91a4bf; --border:#293950;
+  --accent:#40d69a; --danger:#ff6878; --blue:#67a7ff;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;transition:.2s}
+body[data-theme="light"]{--bg:#f2f5fa;--panel:#fff;--panel2:#edf2f8;--text:#172438;--muted:#62738a;--border:#d9e1ec;--accent:#079c68;--danger:#dc4054;--blue:#286ed0}
+body[data-theme="purple"]{--bg:#130f22;--panel:#201a35;--panel2:#2b2345;--accent:#c69bff;--blue:#a7a0ff}
+body[data-theme="ocean"]{--bg:#061923;--panel:#0b2938;--panel2:#123748;--accent:#42e5d0;--blue:#5bb9ff}
+body[data-theme="forest"]{--bg:#101b16;--panel:#1a2a20;--panel2:#263b2d;--accent:#85e38f;--blue:#8ac5ff}
+body[data-theme="red"]{--bg:#201015;--panel:#301820;--panel2:#42212b;--accent:#ff9a78;--blue:#ffb4c0}
+body[data-theme="gold"]{--bg:#19160b;--panel:#292312;--panel2:#393019;--accent:#ffd166;--blue:#f4bc75}
+body[data-theme="pink"]{--bg:#21121d;--panel:#321c2c;--panel2:#42253a;--accent:#ff91c8;--blue:#c3a4ff}
+body[data-theme="slate"]{--bg:#151a20;--panel:#222a33;--panel2:#2c3642;--accent:#b7e3a1;--blue:#a6c8ff}
+body[data-theme="midnight"]{--bg:#050713;--panel:#0e1225;--panel2:#171d34;--accent:#7bf0c4;--blue:#8aa8ff}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px max(16px,calc((100% - 1200px)/2));border-bottom:1px solid var(--border);background:var(--panel)}
+.brand{font-size:22px;font-weight:800;letter-spacing:1px}
+.brand span{color:var(--accent)}
+.subtitle{font-size:12px;color:var(--muted);margin-top:5px}
+button,select,input{font:inherit}
+button{cursor:pointer;border:1px solid var(--border);background:var(--panel2);color:var(--text);border-radius:9px;padding:10px 13px}
+button:hover{filter:brightness(1.12)}
+button.primary{background:var(--accent);color:#062116;border-color:transparent;font-weight:700}
+button:disabled{opacity:.5;cursor:wait}
+main{max-width:1200px;margin:auto;padding:22px 16px 40px}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+h1{font-size:24px;margin:0 0 6px}
+h2{font-size:17px;margin:0}
+p{line-height:1.5}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.status{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);padding:7px 10px;border-radius:20px;font-size:12px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block}
+.dot.green{background:var(--accent)}
+.dot.red{background:var(--danger)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.card,.panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:17px;min-width:0}
+.metric-label{color:var(--muted);font-size:13px;margin-bottom:12px}
+.metric-value{font-size:clamp(19px,3vw,27px);font-weight:750;overflow-wrap:anywhere}
+.metric-note{font-size:12px;color:var(--muted);margin-top:8px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:15px}
+.panel{margin-bottom:18px}
+.table-wrap{width:100%;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:660px;font-size:13px}
+th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
+th{font-weight:600;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+.pill{display:inline-block;padding:5px 8px;border-radius:20px;font-size:11px;font-weight:700}
+.pill.online{background:#123b2d;color:#6be5ae}
+.pill.offline{background:#43202a;color:#ff9aa5}
+.pill.unknown{background:var(--panel2);color:var(--muted)}
+.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.info-box{background:var(--panel2);padding:13px;border-radius:10px;min-width:0}
+.info-box .label{font-size:12px;color:var(--muted);margin-bottom:8px}
+.info-box .value{font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.server-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.server{background:var(--panel2);padding:14px;border-radius:10px;min-width:0}
+.server strong{display:block;margin-bottom:8px}
+.server code{font-size:12px;overflow-wrap:anywhere;color:var(--accent)}
+.notice{padding:12px 14px;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:18px}
+.error{display:none;color:#ff9aa5;background:#351a23;border:1px solid #713442;padding:12px;border-radius:10px;margin-bottom:16px;overflow-wrap:anywhere}
+.loading{color:var(--muted);font-size:13px;padding:12px 0}
+#settings{display:none}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.settings-row:last-child{border-bottom:0}
+select{background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:9px;border-radius:8px;max-width:100%}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.server-list{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr}header{padding:15px 16px}}
+@media(max-width:430px){.grid{grid-template-columns:1fr}.metric-value{font-size:24px}main{padding:16px 12px 30px}.card,.panel{padding:14px}}
+</style>
 </head>
+<body data-theme="dark">
+<header>
+  <div>
+    <div class="brand">BTC<span>POOL</span></div>
+    <div class="subtitle">Bitcoin Mining Pool Dashboard</div>
+  </div>
+  <button id="settingsButton" type="button" onclick="toggleSettings()">⚙ Settings</button>
+</header>
 
-<body data-theme="light">
-  <main class="app">
-    <header class="topbar">
-      <div class="brand">
-        <div class="logo">₿</div>
+<main>
+  <div id="dashboard">
+    <div class="topline">
+      <div>
+        <h1>Mining Dashboard</h1>
+        <div class="muted small">Live pool statistics and worker monitoring</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <span class="status"><span class="dot" id="connectionDot"></span><span id="connectionStatus">Connecting to API...</span></span>
+        <button id="refreshButton" type="button" onclick="loadDashboard()">↻ Refresh</button>
+      </div>
+    </div>
+
+    <div id="errorBox" class="error"></div>
+    <div id="lastUpdated" class="muted small" style="margin-bottom:16px">Waiting for pool data...</div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="metric-label">Pool Balance</div>
+        <div class="metric-value" id="balanceBTC">— BTC</div>
+        <div class="metric-note" id="balanceUSD">— USD</div>
+      </div>
+      <div class="card">
+        <div class="metric-label">24h Hashrate</div>
+        <div class="metric-value" id="hashrate24">— TH/s</div>
+        <div class="metric-note">Reported by PECPool API</div>
+      </div>
+      <div class="card">
+        <div class="metric-label">Current Hashrate</div>
+        <div class="metric-value" id="hashrateCurrent">— TH/s</div>
+        <div class="metric-note">Latest reported pool hashrate</div>
+      </div>
+      <div class="card">
+        <div class="metric-label">Total Workers</div>
+        <div class="metric-value" id="workersTotal">—</div>
+        <div class="metric-note">Registered workers</div>
+      </div>
+      <div class="card">
+        <div class="metric-label">Workers Online</div>
+        <div class="metric-value" id="workersOnline" style="color:var(--accent)">—</div>
+        <div class="metric-note">Currently connected</div>
+      </div>
+      <div class="card">
+        <div class="metric-label">Workers Offline</div>
+        <div class="metric-value" id="workersOffline" style="color:var(--danger)">—</div>
+        <div class="metric-note">Not currently reporting</div>
+      </div>
+    </div>
+
+    <section class="panel" id="workersPanel">
+      <div class="section-head">
         <div>
-          <h1>BTCPOOL</h1>
-          <div class="subtitle">Bitcoin Mining Pool Dashboard</div>
+          <h2>Workers</h2>
+          <div class="muted small" style="margin-top:5px">Worker status and share activity reported by PECPool</div>
         </div>
+        <span class="status"><span class="dot" id="workerDot"></span><span id="workerCountLabel">0 workers</span></span>
       </div>
-
-      <div class="top-actions hidden" id="dashboardActions">
-        <button class="btn" id="refreshBtn" type="button">↻ Refresh</button>
-        <button class="btn" id="settingsBtn" type="button">⚙ Settings</button>
-        <button class="btn" id="logoutBtn" type="button">Log Out</button>
+      <div id="workersLoading" class="loading">Loading worker information...</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Worker Name</th>
+              <th>Status</th>
+              <th>Current Hashrate</th>
+              <th>24h Hashrate</th>
+              <th>Last Share (UTC)</th>
+              <th>Rejected (24h)</th>
+            </tr>
+          </thead>
+          <tbody id="workersBody"></tbody>
+        </table>
       </div>
-    </header>
+      <div id="noWorkers" class="muted small" style="display:none;padding:14px 0">No worker records were returned by the API.</div>
+    </section>
 
-    <section id="loginView" class="login-wrap">
-      <div class="panel">
-        <h2>Welcome to BTCPOOL</h2>
-        <p class="muted">Open your mining dashboard.</p>
-
-        <form id="loginForm">
-          <div class="field">
-            <label for="btcAddress">Bitcoin Address</label>
-            <input id="btcAddress" name="btcAddress"
-              placeholder="Enter your BTC address"
-              autocomplete="off" required>
-          </div>
-
-          <button class="btn primary full" type="submit">Open Dashboard</button>
-        </form>
-
-        <div class="notice" style="margin-top:16px">
-          This address is stored locally in this browser for dashboard convenience.
-          It does not authenticate your identity with the pool or filter the API
-          response to your personal account.
+    <section class="panel">
+      <div class="section-head">
+        <h2>Account Summary</h2>
+        <span class="muted small" id="accountName">Account: —</span>
+      </div>
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="label">Account Status</div>
+          <div class="value" id="accountStatus">—</div>
         </div>
-        <div id="loginError" class="error"></div>
+        <div class="info-box">
+          <div class="label">Paid Total</div>
+          <div class="value" id="paidBTC">— BTC</div>
+        </div>
+        <div class="info-box">
+          <div class="label">Unpaid / Waiting Balance</div>
+          <div class="value" id="waitingBTC">— BTC</div>
+        </div>
+        <div class="info-box">
+          <div class="label">Mining Pool</div>
+          <div class="value" id="farmName">PECPool</div>
+        </div>
       </div>
     </section>
 
-    <section id="dashboardView" class="hidden">
-      <div class="panel">
-        <div class="section-title">
-          <div>
-            <h2>Pool Connection</h2>
-            <div class="subtitle" id="connectionText">Connecting to pool API...</div>
-          </div>
-          <div class="status-line">
-            <span class="dot yellow" id="connectionDot"></span>
-            <span id="connectionStatus">Connecting</span>
-          </div>
-        </div>
-
-        <div class="notice">
-          The API currently returns the PECPool farm/account summary for
-          <strong>btpool</strong>. These figures are not verified as personal
-          balances for the Bitcoin address entered above. API refreshes do not
-          guarantee that the pool's underlying statistics have also refreshed.
-        </div>
+    <section class="panel">
+      <div class="section-head">
+        <h2>Mining Servers</h2>
+        <span class="muted small">PECPool Stratum endpoints</span>
       </div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Estimated Balance</div>
-          <div class="stat-value" id="balanceBTC">— BTC</div>
-          <div class="stat-note" id="balanceUSD">USD value: —</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-label">Estimated Earnings · 24h</div>
-          <div class="stat-value" id="earnings24h">— BTC</div>
-          <div class="stat-note" id="earningsNote">Waiting for pool earnings data</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-label">Hashrate · 1h</div>
-          <div class="stat-value" id="hashrate1h">— TH/s</div>
-          <div class="stat-note">Pool-reported average</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-label">Hashrate · 12h</div>
-          <div class="stat-value" id="hashrate12h">— TH/s</div>
-          <div class="stat-note">Not supplied by the current API</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-label">Hashrate · 24h</div>
-          <div class="stat-value" id="hashrate24h">— TH/s</div>
-          <div class="stat-note">Pool-reported average</div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-label">Workers Online / Offline</div>
-          <div class="stat-value">
-            <span class="success" id="workersOnline">—</span>
-            <span class="muted"> / </span>
-            <span style="color:var(--danger)" id="workersOffline">—</span>
-          </div>
-          <div class="stat-note" id="workersTotal">Total workers: —</div>
-        </div>
+      <div class="server-list">
+        <div class="server"><strong>Iran</strong><code>btc-ir.pecpool.com:8443</code></div>
+        <div class="server"><strong>Russia</strong><code>btc-ru.pecpool.com:3333</code></div>
+        <div class="server"><strong>Asia</strong><code>btc-as.pecpool.com:8443</code></div>
       </div>
-
-      <div class="content-grid">
-        <section class="panel">
-          <div class="section-title"><h2>Account Details</h2></div>
-
-          <div class="detail-row">
-            <span>Dashboard Address</span>
-            <strong id="accountAddress">—</strong>
-          </div>
-          <div class="detail-row">
-            <span>API Farm Name</span>
-            <strong id="farmName">—</strong>
-          </div>
-          <div class="detail-row">
-            <span>Coin</span>
-            <strong id="coinName">Bitcoin</strong>
-          </div>
-          <div class="detail-row">
-            <span>Mining Hashrate</span>
-            <strong id="mainHashrate">— TH/s</strong>
-          </div>
-          <div class="detail-row">
-            <span>Pool API Response</span>
-            <strong id="apiUpdated">Not fetched yet</strong>
-          </div>
-          <div class="detail-row">
-            <span>Pool Statistics Updated</span>
-            <strong id="poolUpdated">Not available</strong>
-          </div>
-          <div class="detail-row">
-            <span>Last Successful Fetch</span>
-            <strong id="lastSuccess">Not available</strong>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="section-title"><h2>Miner Connection Guide</h2></div>
-
-          <div class="notice" style="margin-bottom:12px">
-            These are the configured PECPool endpoints. This page displays
-            connection details; it cannot verify whether your mining hardware
-            is connected or submit mining shares.
-          </div>
-
-          <div class="server">
-            <div class="server-name">Iran Server</div>
-            <code>btc-ir.pecpool.com:8443</code>
-            <button class="btn" type="button" data-copy="btc-ir.pecpool.com:8443"
-              style="float:right;padding:6px 9px">Copy</button>
-          </div>
-
-          <div class="server">
-            <div class="server-name">Russia Server</div>
-            <code>btc-ru.pecpool.com:3333</code>
-            <button class="btn" type="button" data-copy="btc-ru.pecpool.com:3333"
-              style="float:right;padding:6px 9px">Copy</button>
-          </div>
-
-          <div class="server">
-            <div class="server-name">Asia Server</div>
-            <code>btc-as.pecpool.com:8443</code>
-            <button class="btn" type="button" data-copy="btc-as.pecpool.com:8443"
-              style="float:right;padding:6px 9px">Copy</button>
-          </div>
-
-          <div class="detail-row">
-            <span>Worker Username</span>
-            <strong id="workerUsername">—</strong>
-          </div>
-          <div class="detail-row">
-            <span>Worker Password</span>
-            <strong>x</strong>
-          </div>
-          <div class="detail-row">
-            <span>Minimum Withdrawal (display setting)</span>
-            <strong>0.001 BTC</strong>
-          </div>
-        </section>
+      <div class="notice" style="margin:14px 0 0">
+        <strong>Miner username:</strong> <code>btpool.&lt;your_account_id&gt;</code><br>
+        <strong>Miner password:</strong> <code>x</code><br>
+        Use the account or worker identifier assigned to you by the pool. This dashboard displays API data and does not itself connect mining hardware.
       </div>
-
-      <section class="panel" style="margin-bottom:16px">
-        <div class="section-title">
-          <h2>Payments & Earnings Records</h2>
-        </div>
-        <div class="muted" id="recordsStatus" style="margin-bottom:12px">
-          Waiting for API data...
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Date (UTC)</th>
-                <th>BTC Amount</th>
-                <th>USD Value</th>
-                <th>Record Type</th>
-              </tr>
-            </thead>
-            <tbody id="recordsBody">
-              <tr><td colspan="4">No records loaded yet.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="panel hidden" id="settingsPanel" style="margin-bottom:16px">
-        <div class="section-title">
-          <h2>Settings</h2>
-          <button class="btn" type="button" id="closeSettingsBtn">Close</button>
-        </div>
-
-        <h3 style="font-size:14px">Choose Theme</h3>
-        <div class="theme-grid" id="themeGrid">
-          <button class="theme-btn active" data-theme-choice="light" type="button">
-            <span class="theme-swatch" style="background:#2377ee"></span>Light Blue
-          </button>
-          <button class="theme-btn" data-theme-choice="dark" type="button">
-            <span class="theme-swatch" style="background:#4a91ff"></span>Dark
-          </button>
-          <button class="theme-btn" data-theme-choice="green" type="button">
-            <span class="theme-swatch" style="background:#17844a"></span>Green
-          </button>
-          <button class="theme-btn" data-theme-choice="purple" type="button">
-            <span class="theme-swatch" style="background:#8252d6"></span>Purple
-          </button>
-          <button class="theme-btn" data-theme-choice="orange" type="button">
-            <span class="theme-swatch" style="background:#e47a21"></span>Orange
-          </button>
-          <button class="theme-btn" data-theme-choice="red" type="button">
-            <span class="theme-swatch" style="background:#d94255"></span>Red
-          </button>
-          <button class="theme-btn" data-theme-choice="cyan" type="button">
-            <span class="theme-swatch" style="background:#0797b7"></span>Cyan
-          </button>
-          <button class="theme-btn" data-theme-choice="gold" type="button">
-            <span class="theme-swatch" style="background:#ad841c"></span>Gold
-          </button>
-          <button class="theme-btn" data-theme-choice="rose" type="button">
-            <span class="theme-swatch" style="background:#d94d91"></span>Rose
-          </button>
-          <button class="theme-btn" data-theme-choice="slate" type="button">
-            <span class="theme-swatch" style="background:#526c87"></span>Slate
-          </button>
-        </div>
-
-        <div class="notice" style="margin-top:18px">
-          Theme preferences are stored in this browser. This page does not
-          implement secure user authentication, password changes, real
-          withdrawals, or account registration. Those features require a
-          separate secure backend.
-        </div>
-      </section>
-
-      <div id="pageMessage" class="notice hidden" role="status"></div>
     </section>
 
-    <footer class="footer">BTCPOOL · Bitcoin Mining Pool Dashboard</footer>
-  </main>
-
-  <script>
-    "use strict";
-
-    const API_URL =
-      "https://juizoasgdtisnesiojqi.supabase.co/functions/v1/hyper-endpoint";
-
-    const REFRESH_INTERVAL_MS = 60_000;
-
-    let refreshTimer = null;
-    let requestInProgress = false;
-    let lastSuccessfulData = null;
-    let lastSuccessfulFetch = null;
-    let currentAddress = "";
-
-    const $ = (id) => document.getElementById(id);
-
-    function setText(id, value) {
-      const element = $(id);
-      if (element) element.textContent = String(value);
-    }
-
-    function formatBTC(value) {
-      if (value === null || value === undefined || value === "") return "—";
-      const number = Number(value);
-      if (!Number.isFinite(number)) return "—";
-      return number.toFixed(8);
-    }
-
-    function formatUSD(value) {
-      if (value === null || value === undefined || value === "") return "—";
-      const number = Number(value);
-      if (!Number.isFinite(number)) return "—";
-      return number.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      });
-    }
-
-    function formatHashrate(value) {
-      if (value === null || value === undefined || value === "") return "—";
-      const number = Number(value);
-      if (!Number.isFinite(number)) return "—";
-      return number.toLocaleString("en-US", {
-        maximumFractionDigits: 6
-      });
-    }
-
-    function formatDate(value) {
-      if (!value) return "Not available";
-      const date = new Date(value);
-      if (Number.isNaN(date.getTime())) return "Not available";
-      return date.toLocaleString("en-GB", {
-        timeZone: "UTC",
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-      }) + " UTC";
-    }
-
-    function setConnection(status, color, message) {
-      setText("connectionStatus", status);
-      setText("connectionText", message);
-      $("connectionDot").className = "dot " + color;
-    }
-
-    function showMessage(message) {
-      const box = $("pageMessage");
-      box.textContent = message;
-      box.classList.remove("hidden");
-    }
-
-    function hideMessage() {
-      $("pageMessage").textContent = "";
-      $("pageMessage").classList.add("hidden");
-    }
-
-    function getNumeric(object, keys) {
-      for (const key of keys) {
-        if (object && object[key] !== null &&
-            object[key] !== undefined && object[key] !== "") {
-          const number = Number(object[key]);
-          if (Number.isFinite(number)) return number;
-        }
-      }
-      return null;
-    }
-
-    function getValue(object, keys) {
-      for (const key of keys) {
-        if (object && object[key] !== null &&
-            object[key] !== undefined && object[key] !== "") {
-          return object[key];
-        }
-      }
-      return null;
-    }
-
-    function unwrapResponse(json) {
-      if (!json || typeof json !== "object") {
-        throw new Error("The API returned an invalid response.");
-      }
-
-      if (json.ok === false || json.success === false) {
-        throw new Error(json.message || json.error || "The API reported an error.");
-      }
-
-      let root = json.data && typeof json.data === "object"
-        ? json.data
-        : json;
-
-      // Supports both {data:{farm,accounts}} and
-      // {data:{success:true,data:{farm,accounts}}}.
-      if (root.data && typeof root.data === "object") {
-        root = root.data;
-      }
-
-      if (root.success === false) {
-        throw new Error(root.message || root.error || "The pool request failed.");
-      }
-
-      const farm = root.farm || root.pool ||
-        (root.data && (root.data.farm || root.data.pool)) || {};
-
-      const accounts = Array.isArray(root.accounts) ? root.accounts :
-        (root.data && Array.isArray(root.data.accounts) ? root.data.accounts : []);
-
-      const account =
-        accounts.find(item => String(item.account || "").toLowerCase() === "btpool") ||
-        accounts[0] || {};
-
-      const summary = account.summary || account;
-      const earnings = account.earnings || {};
-      const payouts = account.payouts || {};
-
-      return {
-        source: json.source || root.source || "Pool API",
-        fetchedAt: json.fetchedAt || root.fetchedAt || root.serverTimeUtc || null,
-        farm,
-        account,
-        summary,
-        earnings: Array.isArray(earnings.items) ? earnings.items : [],
-        payouts: Array.isArray(payouts.items) ? payouts.items : []
-      };
-    }
-
-    function calculateRecentEarnings(items) {
-      const now = Date.now();
-      const windowStart = now - 24 * 60 * 60 * 1000;
-      let totalBTC = 0;
-      let totalUSD = 0;
-      let hasBTC = false;
-      let hasUSD = false;
-      let count = 0;
-
-      for (const item of items) {
-        const rawDate = item.dateUtc || item.date || item.timestamp;
-        if (!rawDate) continue;
-
-        const date = new Date(rawDate);
-        if (Number.isNaN(date.getTime())) continue;
-
-        if (date.getTime() < windowStart || date.getTime() > now) continue;
-
-        const btc = getNumeric(item, ["earnBTC", "amountBTC", "btc"]);
-        const usd = getNumeric(item, ["earnUSD", "amountUSD", "usd"]);
-
-        if (btc !== null) {
-          totalBTC += btc;
-          hasBTC = true;
-        }
-        if (usd !== null) {
-          totalUSD += usd;
-          hasUSD = true;
-        }
-        count++;
-      }
-
-      return {
-        btc: count > 0 && hasBTC ? totalBTC : null,
-        usd: count > 0 && hasUSD ? totalUSD : null,
-        count
-      };
-    }
-
-    function renderDashboard(result) {
-      const farm = result.farm;
-      const summary = result.summary;
-
-      const balanceBTC = getValue(summary, ["balanceBTC"]) ??
-        getValue(farm, ["balanceBTC"]);
-      const balanceUSD = getValue(summary, ["balanceUSD"]) ??
-        getValue(farm, ["balanceUSD"]);
-
-      const hashrate1h = getNumeric(summary, ["hashrate1hTHs", "hashrate1h"]) ??
-        getNumeric(farm, ["hashrate1hTHs", "hashrate1h"]);
-
-      const hashrate24h = getNumeric(summary, ["hashrate24hTHs", "hashrate24h"]) ??
-        getNumeric(farm, ["hashrate24hTHs", "hashrate24h"]);
-
-      const online = getNumeric(summary, ["workersOnline", "onlineWorkers"]) ??
-        getNumeric(farm, ["onlineWorkers", "workersOnline"]);
-
-      const offline = getNumeric(summary, ["workersOffline", "offlineWorkers"]) ??
-        getNumeric(farm, ["offlineWorkers", "workersOffline"]);
-
-      const total = getNumeric(summary, ["workersTotal", "totalWorkers"]) ??
-        getNumeric(farm, ["totalWorkers", "totalWorkersCount"]);
-
-      setText("balanceBTC", formatBTC(balanceBTC) + " BTC");
-      setText("balanceUSD", "USD value: " + formatUSD(balanceUSD));
-      setText("hashrate1h", formatHashrate(hashrate1h) + " TH/s");
-      setText("hashrate24h", formatHashrate(hashrate24h) + " TH/s");
-      setText("hashrate12h", "— TH/s");
-      setText("mainHashrate", formatHashrate(hashrate24h) + " TH/s");
-
-      setText("workersOnline", online === null ? "—" : online);
-      setText("workersOffline", offline === null ? "—" : offline);
-      setText("workersTotal",
-        "Total workers: " + (total === null ? "—" : total));
-
-      setText("farmName",
-        getValue(farm, ["farmName", "name"]) ||
-        getValue(summary, ["account"]) || "btpool");
-
-      setText("coinName",
-        getValue(farm, ["coin"]) || "Bitcoin");
-
-      setText("apiUpdated", formatDate(result.fetchedAt));
-      setText("poolUpdated", formatDate(
-        getValue(summary, ["lastUpdateUtc", "lastUpdate"]) ||
-        getValue(farm, ["lastUpdateUtc", "lastUpdate"])
-      ));
-
-      setText("lastSuccess", formatDate(lastSuccessfulFetch));
-
-      const recent = calculateRecentEarnings(result.earnings);
-
-      if (recent.btc !== null) {
-        setText("earnings24h", formatBTC(recent.btc) + " BTC");
-        setText("earningsNote",
-          "Based on " + recent.count + " pool record(s) dated within the last 24 hours" +
-          (recent.usd !== null ? " · " + formatUSD(recent.usd) : ""));
-      } else {
-        setText("earnings24h", "— BTC");
-        setText("earningsNote",
-          "No earnings records dated within the last 24 hours");
-      }
-
-      renderRecords(result);
-    }
-
-    function renderRecords(result) {
-      const body = $("recordsBody");
-      body.replaceChildren();
-
-      const records = [];
-
-      for (const item of result.earnings) {
-        records.push({
-          date: item.dateUtc || item.date || item.timestamp || null,
-          btc: getValue(item, ["earnBTC", "amountBTC", "btc"]),
-          usd: getValue(item, ["earnUSD", "amountUSD", "usd"]),
-          type: "Earnings"
-        });
-      }
-
-      for (const item of result.payouts) {
-        records.push({
-          date: item.dateUtc || item.date || item.timestamp || null,
-          btc: getValue(item, ["amountBTC", "paidBTC", "payoutBTC", "btc"]),
-          usd: getValue(item, ["amountUSD", "paidUSD", "payoutUSD", "usd"]),
-          type: "Payout"
-        });
-      }
-
-      records.sort((a, b) => {
-        const da = a.date ? new Date(a.date).getTime() : 0;
-        const db = b.date ? new Date(b.date).getTime() : 0;
-        return db - da;
-      });
-
-      if (!records.length) {
-        const row = document.createElement("tr");
-        const cell = document.createElement("td");
-        cell.colSpan = 4;
-        cell.textContent = "No earnings or payout records were returned by the API.";
-        row.appendChild(cell);
-        body.appendChild(row);
-        setText("recordsStatus", "No records available.");
-        return;
-      }
-
-      for (const record of records) {
-        const row = document.createElement("tr");
-        const values = [
-          formatDate(record.date),
-          record.btc === null ? "—" : formatBTC(record.btc) + " BTC",
-          record.usd === null ? "—" : formatUSD(record.usd),
-          record.type
-        ];
-
-        for (const value of values) {
-          const cell = document.createElement("td");
-          cell.textContent = value;
-          row.appendChild(cell);
-        }
-
-        body.appendChild(row);
-      }
-
-      setText("recordsStatus", records.length + " record(s) received from the API.");
-    }
-
-    async function refreshStatistics(manual = false) {
-      if (requestInProgress) return;
-      requestInProgress = true;
-
-      const button = $("refreshBtn");
-      if (button) {
-        button.disabled = true;
-        button.textContent = "Refreshing...";
-      }
-
-      setConnection(
-        lastSuccessfulData ? "Refreshing" : "Connecting",
-        "yellow",
-        "Requesting current data from Supabase..."
-      );
-
-      try {
-        const response = await fetch(API_URL, {
-          method: "GET",
-          headers: { "Accept": "application/json" },
-          cache: "no-store"
-        });
-
-        if (!response.ok) {
-          throw new Error("API returned HTTP " + response.status);
-        }
-
-        const json = await response.json();
-        const result = unwrapResponse(json);
-
-        lastSuccessfulFetch = new Date().toISOString();
-        lastSuccessfulData = result;
-
-        renderDashboard(result);
-
-        setConnection(
-          "Connected",
-          "green",
-          "Data received from " + result.source
-        );
-        hideMessage();
-
-      } catch (error) {
-        console.error("BTCPOOL API error:", error);
-
-        setConnection(
-          "Connection Error",
-          "red",
-          "Could not refresh pool statistics"
-        );
-
-        if (lastSuccessfulData) {
-          // Preserve the last successful values on screen.
-          setText("lastSuccess", formatDate(lastSuccessfulFetch));
-          showMessage(
-            "The latest API request failed. The last successful statistics remain on screen. " +
-            "Error: " + (error.message || "Unknown network error")
-          );
-        } else {
-          showMessage(
-            "Unable to load pool statistics. Check the Supabase function response " +
-            "and browser CORS settings. No live statistics have been loaded yet. " +
-            "Error: " + (error.message || "Unknown network error")
-          );
-        }
-      } finally {
-        requestInProgress = false;
-        if (button) {
-          button.disabled = false;
-          button.textContent = "↻ Refresh";
-        }
-      }
-    }
-
-    function validBitcoinAddress(address) {
-      // Basic format check only; this is not cryptographic address validation.
-      return /^(bc1[ac-hj-np-z02-9]{11,87}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/.test(address);
-    }
-
-    function openDashboard(address) {
-      currentAddress = address;
-
-      setText("accountAddress", address);
-      setText("workerUsername", "btpool." + address);
-
-      $("loginView").classList.add("hidden");
-      $("dashboardView").classList.remove("hidden");
-      $("dashboardActions").classList.remove("hidden");
-
-      try {
-        localStorage.setItem("btcpool_address", address);
-      } catch (_) {}
-
-      refreshStatistics(false);
-
-      if (refreshTimer) clearInterval(refreshTimer);
-      refreshTimer = setInterval(() => {
-        if (!$("dashboardView").classList.contains("hidden")) {
-          refreshStatistics(false);
-        }
-      }, REFRESH_INTERVAL_MS);
-    }
-
-    function logout() {
-      if (refreshTimer) {
-        clearInterval(refreshTimer);
-        refreshTimer = null;
-      }
-
-      currentAddress = "";
-      lastSuccessfulData = null;
-      lastSuccessfulFetch = null;
-
-      try {
-        localStorage.removeItem("btcpool_address");
-      } catch (_) {}
-
-      $("dashboardView").classList.add("hidden");
-      $("dashboardActions").classList.add("hidden");
-      $("settingsPanel").classList.add("hidden");
-      $("loginView").classList.remove("hidden");
-
-      setConnection("Disconnected", "", "Not connected");
-    }
-
-    function applyTheme(theme) {
-      const validThemes = [
-        "light", "dark", "green", "purple", "orange",
-        "red", "cyan", "gold", "rose", "slate"
-      ];
-
-      const chosen = validThemes.includes(theme) ? theme : "light";
-      document.body.setAttribute("data-theme", chosen);
-
-      try {
-        localStorage.setItem("btcpool_theme", chosen);
-      } catch (_) {}
-
-      document.querySelectorAll("[data-theme-choice]").forEach(button => {
-        button.classList.toggle(
-          "active",
-          button.getAttribute("data-theme-choice") === chosen
-        );
-      });
-    }
-
-    $("loginForm").addEventListener("submit", event => {
-      event.preventDefault();
-
-      const address = $("btcAddress").value.trim();
-      $("loginError").textContent = "";
-
-      if (!validBitcoinAddress(address)) {
-        $("loginError").textContent =
-          "Please enter a Bitcoin address in a supported format.";
-        return;
-      }
-
-      openDashboard(address);
+    <section class="panel">
+      <div class="section-head">
+        <h2>Earnings Records</h2>
+        <span class="muted small">Data supplied by the pool API</span>
+      </div>
+      <div id="earningsLoading" class="loading">Loading earnings records...</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Date (UTC)</th><th>Earned (BTC)</th><th>Estimated Value (USD)</th><th>24h Hashrate</th></tr>
+          </thead>
+          <tbody id="earningsBody"></tbody>
+        </table>
+      </div>
+      <div id="noEarnings" class="muted small" style="display:none;padding:14px 0">No earnings records were returned by the API.</div>
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <h2>Payout Records</h2>
+        <span class="muted small">Reported payments</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Date (UTC)</th><th>Amount (BTC)</th><th>Transaction ID</th><th>Status</th></tr></thead>
+          <tbody id="payoutsBody"></tbody>
+        </table>
+      </div>
+      <div id="noPayouts" class="muted small" style="padding:14px 0">No payout records were returned by the API.</div>
+    </section>
+  </div>
+
+  <section class="panel" id="settings">
+    <div class="section-head">
+      <h2>Settings</h2>
+      <button type="button" onclick="toggleSettings()">Back to Dashboard</button>
+    </div>
+    <div class="settings-row">
+      <div><strong>Color Theme</strong><div class="muted small">Choose your dashboard appearance</div></div>
+      <select id="themeSelect" onchange="setTheme(this.value)">
+        <option value="dark">Dark Blue</option>
+        <option value="light">Light</option>
+        <option value="purple">Purple</option>
+        <option value="ocean">Ocean</option>
+        <option value="forest">Forest</option>
+        <option value="red">Red</option>
+        <option value="gold">Gold</option>
+        <option value="pink">Pink</option>
+        <option value="slate">Slate</option>
+        <option value="midnight">Midnight</option>
+      </select>
+    </div>
+    <div class="settings-row">
+      <div><strong>Automatic Refresh</strong><div class="muted small">Refresh pool data every 60 seconds</div></div>
+      <span class="pill online">Enabled</span>
+    </div>
+    <div class="settings-row">
+      <div><strong>Data Source</strong><div class="muted small">Supabase Edge Function → PECPool</div></div>
+      <span class="pill online">API</span>
+    </div>
+    <div style="margin-top:18px"><button type="button" onclick="toggleSettings()">Back to Dashboard</button></div>
+  </section>
+</main>
+
+<footer>BTCPOOL · Bitcoin Mining Pool Dashboard · Pool data may be delayed.</footer>
+
+<script>
+"use strict";
+
+const API_URL = "https://juizoasgdtisnesiojqi.supabase.co/functions/v1/hyper-endpoint";
+const REFRESH_INTERVAL_MS = 60000;
+let refreshTimer = null;
+let isLoading = false;
+
+function byId(id) {
+  return document.getElementById(id);
+}
+
+function setText(id, value) {
+  byId(id).textContent = value == null || value === "" ? "—" : String(value);
+}
+
+function numeric(value) {
+  const n = Number(value);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function formatNumber(value, maxDigits = 4) {
+  return numeric(value).toLocaleString("en-US", {
+    maximumFractionDigits: maxDigits
+  });
+}
+
+function formatBTC(value) {
+  return numeric(value).toLocaleString("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 8
+  });
+}
+
+function formatDate(value) {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return String(value);
+  return date.toISOString().replace("T", " ").replace(".000Z", " UTC").replace("Z", " UTC");
+}
+
+function normalizeStatus(status) {
+  const s = String(status || "").toLowerCase();
+  if (s === "online" || s === "active" || s === "connected") return "online";
+  if (s === "offline" || s === "inactive" || s === "disconnected") return "offline";
+  return "unknown";
+}
+
+function statusPill(status) {
+  const normalized = normalizeStatus(status);
+  const label = normalized === "online" ? "Online" :
+                normalized === "offline" ? "Offline" : "Unknown";
+  return '<span class="pill ' + normalized + '">' + label + '</span>';
+}
+
+function showError(message) {
+  const box = byId("errorBox");
+  box.textContent = message;
+  box.style.display = "block";
+}
+
+function clearError() {
+  byId("errorBox").textContent = "";
+  byId("errorBox").style.display = "none";
+}
+
+function setConnection(ok, label) {
+  byId("connectionStatus").textContent = label;
+  byId("connectionDot").className = "dot " + (ok ? "green" : "red");
+}
+
+function unwrapResponse(json) {
+  // Supports the API response shape:
+  // { ok:true, data:{ success:true, data:{ farm, accounts } } }
+  let payload = json;
+  if (payload && payload.data && payload.data.data) {
+    payload = payload.data.data;
+  } else if (payload && payload.data) {
+    payload = payload.data;
+  }
+
+  const farm = payload.farm || {};
+  const accounts = Array.isArray(payload.accounts) ? payload.accounts : [];
+  const account = accounts[0] || {};
+  const summary = account.summary || farm || {};
+
+  return {
+    farm,
+    account,
+    summary,
+    workers: Array.isArray(account.workers) ? account.workers : [],
+    earnings: account.earnings && Array.isArray(account.earnings.items)
+      ? account.earnings.items : [],
+    payouts: account.payouts && Array.isArray(account.payouts.items)
+      ? account.payouts.items : [],
+    fetchedAt: json.fetchedAt || payload.fetchedAt || null
+  };
+}
+
+function renderDashboard(result) {
+  const farm = result.farm;
+  const account = result.account;
+  const summary = result.summary;
+  const workers = result.workers;
+
+  setText("balanceBTC", formatBTC(summary.balanceBTC) + " BTC");
+  setText("balanceUSD", "$" + formatNumber(summary.balanceUSD, 2));
+  setText("hashrate24", formatNumber(summary.hashrate24hTHs, 4) + " TH/s");
+  setText("hashrateCurrent", formatNumber(summary.hashrateTHs, 4) + " TH/s");
+
+  const totalWorkers = summary.workersTotal ?? summary.totalWorkers ?? farm.totalWorkers ?? workers.length;
+  const onlineWorkers = summary.workersOnline ?? summary.onlineWorkers ??
+    workers.filter(w => normalizeStatus(w.status) === "online").length;
+  const offlineWorkers = summary.workersOffline ?? summary.offlineWorkers ??
+    workers.filter(w => normalizeStatus(w.status) === "offline").length;
+
+  setText("workersTotal", totalWorkers);
+  setText("workersOnline", onlineWorkers);
+  setText("workersOffline", offlineWorkers);
+  setText("workerCountLabel", workers.length + (workers.length === 1 ? " worker" : " workers"));
+
+  byId("workerDot").className = "dot " + (Number(onlineWorkers) > 0 ? "green" : "red");
+  setText("accountName", "Account: " + (account.account || summary.account || "—"));
+  setText("accountStatus", account.active === true ? "Active" :
+    account.active === false ? "Inactive" : "—");
+  setText("paidBTC", formatBTC(summary.paidBTC) + " BTC");
+  setText("waitingBTC", formatBTC(summary.waitingBTC) + " BTC");
+  setText("farmName", farm.farmName || "PECPool");
+
+  renderWorkers(workers);
+  renderEarnings(result.earnings);
+  renderPayouts(result.payouts);
+
+  const timestamp = result.fetchedAt || farm.lastUpdateUtc || summary.lastUpdateUtc;
+  setText("lastUpdated", "Last data update: " + formatDate(timestamp));
+}
+
+function renderWorkers(workers) {
+  const tbody = byId("workersBody");
+  tbody.replaceChildren();
+  byId("workersLoading").style.display = "none";
+  byId("noWorkers").style.display = workers.length ? "none" : "block";
+
+  workers.forEach(worker => {
+    const row = document.createElement("tr");
+
+    const name = document.createElement("td");
+    name.textContent = worker.workerName || worker.name || worker.worker || "Unnamed worker";
+
+    const status = document.createElement("td");
+    status.innerHTML = statusPill(worker.status);
+
+    const current = document.createElement("td");
+    current.textContent = formatNumber(worker.hashrateTHs, 4) + " TH/s";
+
+    const daily = document.createElement("td");
+    daily.textContent = formatNumber(worker.hashrate24hTHs, 4) + " TH/s";
+
+    const lastShare = document.createElement("td");
+    lastShare.textContent = formatDate(worker.lastShareUtc || worker.lastSeenUtc);
+
+    const rejected = document.createElement("td");
+    rejected.textContent = formatNumber(worker.rejected24h, 0);
+
+    row.append(name, status, current, daily, lastShare, rejected);
+    tbody.appendChild(row);
+  });
+}
+
+function renderEarnings(items) {
+  const tbody = byId("earningsBody");
+  tbody.replaceChildren();
+  byId("earningsLoading").style.display = "none";
+  byId("noEarnings").style.display = items.length ? "none" : "block";
+
+  items.forEach(item => {
+    const row = document.createElement("tr");
+    [
+      formatDate(item.dateUtc || item.date || item.createdAt),
+      formatBTC(item.earnBTC) + " BTC",
+      "$" + formatNumber(item.earnUSD, 2),
+      formatNumber(item.hashrate24hTHs, 4) + " TH/s"
+    ].forEach(value => {
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      row.appendChild(cell);
+    });
+    tbody.appendChild(row);
+  });
+}
+
+function renderPayouts(items) {
+  const tbody = byId("payoutsBody");
+  tbody.replaceChildren();
+  byId("noPayouts").style.display = items.length ? "none" : "block";
+
+  items.forEach(item => {
+    const row = document.createElement("tr");
+    const values = [
+      formatDate(item.dateUtc || item.date || item.createdAt),
+      formatBTC(item.amountBTC || item.amount || item.paidBTC) + " BTC",
+      item.txid || item.transactionId || "—",
+      item.status || "Reported by pool"
+    ];
+    values.forEach(value => {
+      const cell = document.createElement("td");
+      cell.textContent = String(value);
+      row.appendChild(cell);
+    });
+    tbody.appendChild(row);
+  });
+}
+
+async function loadDashboard() {
+  if (isLoading) return;
+  isLoading = true;
+  const refreshButton = byId("refreshButton");
+  refreshButton.disabled = true;
+  refreshButton.textContent = "Loading...";
+  clearError();
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "GET",
+      cache: "no-store",
+      headers: { "Accept": "application/json" }
     });
 
-    $("refreshBtn").addEventListener("click", () => {
-      refreshStatistics(true);
-    });
-
-    $("logoutBtn").addEventListener("click", logout);
-
-    $("settingsBtn").addEventListener("click", () => {
-      $("settingsPanel").classList.toggle("hidden");
-    });
-
-    $("closeSettingsBtn").addEventListener("click", () => {
-      $("settingsPanel").classList.add("hidden");
-    });
-
-    $("themeGrid").addEventListener("click", event => {
-      const button = event.target.closest("[data-theme-choice]");
-      if (!button) return;
-      applyTheme(button.getAttribute("data-theme-choice"));
-    });
-
-    document.addEventListener("click", async event => {
-      const button = event.target.closest("[data-copy]");
-      if (!button) return;
-
-      const value = button.getAttribute("data-copy");
-
-      try {
-        await navigator.clipboard.writeText(value);
-        const oldText = button.textContent;
-        button.textContent = "Copied";
-        setTimeout(() => { button.textContent = oldText; }, 1200);
-      } catch (_) {
-        showMessage("Clipboard access failed. Please copy the server address manually: " + value);
-      }
-    });
-
-    // Restore theme and the locally saved dashboard address.
+    const rawText = await response.text();
+    let json;
     try {
-      applyTheme(localStorage.getItem("btcpool_theme") || "light");
-
-      const savedAddress = localStorage.getItem("btcpool_address");
-      if (savedAddress && validBitcoinAddress(savedAddress)) {
-        $("btcAddress").value = savedAddress;
-      }
-    } catch (_) {
-      applyTheme("light");
+      json = JSON.parse(rawText);
+    } catch {
+      throw new Error("The API did not return valid JSON. Check the Supabase Edge Function response.");
     }
-  </script>
+
+    if (!response.ok) {
+      throw new Error("API request failed (HTTP " + response.status + "). " +
+        (json.message || json.error || rawText.slice(0, 180)));
+    }
+
+    if (json.ok === false || json.success === false) {
+      throw new Error(json.message || json.error || "The API reported an error.");
+    }
+
+    const result = unwrapResponse(json);
+    if (!result.account && !result.farm) {
+      throw new Error("The API responded, but no farm or account data was found. Check the JSON structure.");
+    }
+
+    renderDashboard(result);
+    setConnection(true, "API Connected");
+  } catch (error) {
+    setConnection(false, "API Error");
+    showError("Could not load pool data: " + (error.message || String(error)) +
+      " If this is a CORS error, enable CORS in the Supabase Edge Function.");
+    byId("lastUpdated").textContent = "Refresh failed. The values shown may be from the previous successful update.";
+  } finally {
+    isLoading = false;
+    refreshButton.disabled = false;
+    refreshButton.textContent = "↻ Refresh";
+  }
+}
+
+function toggleSettings() {
+  const settings = byId("settings");
+  const dashboard = byId("dashboard");
+  const showingSettings = settings.style.display === "block";
+  settings.style.display = showingSettings ? "none" : "block";
+  dashboard.style.display = showingSettings ? "block" : "none";
+  byId("settingsButton").textContent = showingSettings ? "⚙ Settings" : "← Dashboard";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function setTheme(theme) {
+  const validThemes = ["dark","light","purple","ocean","forest","red","gold","pink","slate","midnight"];
+  const selected = validThemes.includes(theme) ? theme : "dark";
+  document.body.dataset.theme = selected;
+  try { localStorage.setItem("btcpool-theme", selected); } catch {}
+  byId("themeSelect").value = selected;
+}
+
+(function init() {
+  let savedTheme = "dark";
+  try { savedTheme = localStorage.getItem("btcpool-theme") || "dark"; } catch {}
+  setTheme(savedTheme);
+  loadDashboard();
+  refreshTimer = window.setInterval(loadDashboard, REFRESH_INTERVAL_MS);
+})();
+</script>
 </body>
-</html>
-```
+          </html>
