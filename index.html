@@ -3,80 +3,64 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#101827">
 <title>BTCPOOL | Bitcoin Mining Pool</title>
 <style>
-:root {
-  --bg:#0b1220; --panel:#121d2e; --panel2:#18263a;
-  --text:#eef4ff; --muted:#91a4bf; --border:#293950;
-  --accent:#40d69a; --danger:#ff6878; --blue:#67a7ff;
-}
+:root{--bg:#0b1220;--panel:#121d2e;--panel2:#18263a;--text:#eef4ff;--muted:#91a4bf;--border:#293950;--accent:#40d69a;--danger:#ff6878;--blue:#67a7ff}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;transition:.2s}
-body[data-theme="light"]{--bg:#f2f5fa;--panel:#fff;--panel2:#edf2f8;--text:#172438;--muted:#62738a;--border:#d9e1ec;--accent:#079c68;--danger:#dc4054;--blue:#286ed0}
-body[data-theme="purple"]{--bg:#130f22;--panel:#201a35;--panel2:#2b2345;--accent:#c69bff;--blue:#a7a0ff}
-body[data-theme="ocean"]{--bg:#061923;--panel:#0b2938;--panel2:#123748;--accent:#42e5d0;--blue:#5bb9ff}
-body[data-theme="forest"]{--bg:#101b16;--panel:#1a2a20;--panel2:#263b2d;--accent:#85e38f;--blue:#8ac5ff}
-body[data-theme="red"]{--bg:#201015;--panel:#301820;--panel2:#42212b;--accent:#ff9a78;--blue:#ffb4c0}
-body[data-theme="gold"]{--bg:#19160b;--panel:#292312;--panel2:#393019;--accent:#ffd166;--blue:#f4bc75}
-body[data-theme="pink"]{--bg:#21121d;--panel:#321c2c;--panel2:#42253a;--accent:#ff91c8;--blue:#c3a4ff}
-body[data-theme="slate"]{--bg:#151a20;--panel:#222a33;--panel2:#2c3642;--accent:#b7e3a1;--blue:#a6c8ff}
-body[data-theme="midnight"]{--bg:#050713;--panel:#0e1225;--panel2:#171d34;--accent:#7bf0c4;--blue:#8aa8ff}
-header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px max(16px,calc((100% - 1200px)/2));border-bottom:1px solid var(--border);background:var(--panel)}
-.brand{font-size:22px;font-weight:800;letter-spacing:1px}
-.brand span{color:var(--accent)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+body[data-theme=light]{--bg:#f2f5fa;--panel:#fff;--panel2:#edf2f8;--text:#172438;--muted:#62738a;--border:#d9e1ec;--accent:#079c68;--danger:#dc4054;--blue:#286ed0}
+body[data-theme=purple]{--bg:#130f22;--panel:#201a35;--panel2:#2b2345;--accent:#c69bff;--blue:#a7a0ff}
+body[data-theme=ocean]{--bg:#061923;--panel:#0b2938;--panel2:#123748;--accent:#42e5d0;--blue:#5bb9ff}
+body[data-theme=forest]{--bg:#101b16;--panel:#1a2a20;--panel2:#263b2d;--accent:#85e38f;--blue:#8ac5ff}
+body[data-theme=red]{--bg:#201015;--panel:#301820;--panel2:#42212b;--accent:#ff9a78;--blue:#ffb4c0}
+body[data-theme=gold]{--bg:#19160b;--panel:#292312;--panel2:#393019;--accent:#ffd166;--blue:#f4bc75}
+body[data-theme=pink]{--bg:#21121d;--panel:#321c2c;--panel2:#42253a;--accent:#ff91c8;--blue:#c3a4ff}
+body[data-theme=slate]{--bg:#151a20;--panel:#222a33;--panel2:#2c3642;--accent:#b7e3a1;--blue:#a6c8ff}
+body[data-theme=midnight]{--bg:#050713;--panel:#0e1225;--panel2:#171d34;--accent:#7bf0c4;--blue:#8aa8ff}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px max(16px,calc((100% - 1200px)/2));border-bottom:1px solid var(--border);background:var(--panel)}
+.brand{font-size:22px;font-weight:800;letter-spacing:1px}.brand span{color:var(--accent)}
 .subtitle{font-size:12px;color:var(--muted);margin-top:5px}
-button,select,input{font:inherit}
-button{cursor:pointer;border:1px solid var(--border);background:var(--panel2);color:var(--text);border-radius:9px;padding:10px 13px}
-button:hover{filter:brightness(1.12)}
+button,input,select{font:inherit}button{cursor:pointer;border:1px solid var(--border);background:var(--panel2);color:var(--text);border-radius:9px;padding:10px 13px}
 button.primary{background:var(--accent);color:#062116;border-color:transparent;font-weight:700}
-button:disabled{opacity:.5;cursor:wait}
+button:disabled{opacity:.55;cursor:not-allowed}
 main{max-width:1200px;margin:auto;padding:22px 16px 40px}
-.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
-h1{font-size:24px;margin:0 0 6px}
-h2{font-size:17px;margin:0}
-p{line-height:1.5}
-.muted{color:var(--muted)}
-.small{font-size:12px}
+.topline,.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.topline{margin-bottom:20px}
+h1{font-size:24px;margin:0 0 6px}h2{font-size:17px;margin:0}
+.muted{color:var(--muted)}.small{font-size:12px}
 .status{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);padding:7px 10px;border-radius:20px;font-size:12px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block}
-.dot.green{background:var(--accent)}
-.dot.red{background:var(--danger)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block}.dot.green{background:var(--accent)}.dot.red{background:var(--danger)}
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:18px}
 .card,.panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:17px;min-width:0}
 .metric-label{color:var(--muted);font-size:13px;margin-bottom:12px}
 .metric-value{font-size:clamp(19px,3vw,27px);font-weight:750;overflow-wrap:anywhere}
 .metric-note{font-size:12px;color:var(--muted);margin-top:8px}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:15px}
-.panel{margin-bottom:18px}
-.table-wrap{width:100%;overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:660px;font-size:13px}
+.panel{margin-bottom:18px}.section-head{margin-bottom:15px}
+.table-wrap{width:100%;overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:650px;font-size:13px}
 th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--border);white-space:nowrap}
-th{font-weight:600;color:var(--muted)}
-tr:last-child td{border-bottom:0}
+th{font-weight:600;color:var(--muted)}tr:last-child td{border-bottom:0}
 .pill{display:inline-block;padding:5px 8px;border-radius:20px;font-size:11px;font-weight:700}
-.pill.online{background:#123b2d;color:#6be5ae}
-.pill.offline{background:#43202a;color:#ff9aa5}
-.pill.unknown{background:var(--panel2);color:var(--muted)}
+.pill.online{background:#123b2d;color:#6be5ae}.pill.offline{background:#43202a;color:#ff9aa5}.pill.pending{background:#453718;color:#ffdc82}
 .info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.info-box{background:var(--panel2);padding:13px;border-radius:10px;min-width:0}
-.info-box .label{font-size:12px;color:var(--muted);margin-bottom:8px}
-.info-box .value{font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.info-box,.server{background:var(--panel2);padding:13px;border-radius:10px;min-width:0}
+.info-box .label{font-size:12px;color:var(--muted);margin-bottom:8px}.info-box .value{font-size:14px;font-weight:600;overflow-wrap:anywhere}
 .server-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.server{background:var(--panel2);padding:14px;border-radius:10px;min-width:0}
-.server strong{display:block;margin-bottom:8px}
-.server code{font-size:12px;overflow-wrap:anywhere;color:var(--accent)}
-.notice{padding:12px 14px;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:13px;line-height:1.5;margin-bottom:18px}
+.server strong{display:block;margin-bottom:8px}.server code{font-size:12px;overflow-wrap:anywhere;color:var(--accent)}
+.notice{padding:12px 14px;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:18px}
 .error{display:none;color:#ff9aa5;background:#351a23;border:1px solid #713442;padding:12px;border-radius:10px;margin-bottom:16px;overflow-wrap:anywhere}
+.success{display:none;color:var(--accent);background:var(--panel2);border:1px solid var(--border);padding:12px;border-radius:10px;margin-bottom:14px;overflow-wrap:anywhere}
 .loading{color:var(--muted);font-size:13px;padding:12px 0}
 #settings{display:none}
 .settings-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
 .settings-row:last-child{border-bottom:0}
-select{background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:9px;border-radius:8px;max-width:100%}
+select,input{background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:11px;border-radius:8px;width:100%;min-width:0}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:7px}
+.field{margin-bottom:15px}.form-actions{display:flex;gap:10px;flex-wrap:wrap}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
-@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.server-list{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr}header{padding:15px 16px}}
-@media(max-width:430px){.grid{grid-template-columns:1fr}.metric-value{font-size:24px}main{padding:16px 12px 30px}.card,.panel{padding:14px}}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.server-list{grid-template-columns:1fr}header{padding:15px 16px}}
+@media(max-width:430px){.grid,.info-grid{grid-template-columns:1fr}.metric-value{font-size:24px}main{padding:16px 12px 30px}.card,.panel{padding:14px}}
 </style>
 </head>
 <body data-theme="dark">
@@ -89,187 +73,129 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 </header>
 
 <main>
-  <div id="dashboard">
-    <div class="topline">
-      <div>
-        <h1>Mining Dashboard</h1>
-        <div class="muted small">Live pool statistics and worker monitoring</div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-        <span class="status"><span class="dot" id="connectionDot"></span><span id="connectionStatus">Connecting to API...</span></span>
-        <button id="refreshButton" type="button" onclick="loadDashboard()">↻ Refresh</button>
-      </div>
+<div id="dashboard">
+  <div class="topline">
+    <div><h1>Mining Dashboard</h1><div class="muted small">Pool statistics and worker monitoring</div></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span class="status"><span class="dot" id="connectionDot"></span><span id="connectionStatus">Connecting...</span></span>
+      <button id="refreshButton" onclick="loadDashboard()">↻ Refresh</button>
     </div>
-
-    <div id="errorBox" class="error"></div>
-    <div id="lastUpdated" class="muted small" style="margin-bottom:16px">Waiting for pool data...</div>
-
-    <div class="grid">
-      <div class="card">
-        <div class="metric-label">Pool Balance</div>
-        <div class="metric-value" id="balanceBTC">— BTC</div>
-        <div class="metric-note" id="balanceUSD">— USD</div>
-      </div>
-      <div class="card">
-        <div class="metric-label">24h Hashrate</div>
-        <div class="metric-value" id="hashrate24">— TH/s</div>
-        <div class="metric-note">Reported by PECPool API</div>
-      </div>
-      <div class="card">
-        <div class="metric-label">Current Hashrate</div>
-        <div class="metric-value" id="hashrateCurrent">— TH/s</div>
-        <div class="metric-note">Latest reported pool hashrate</div>
-      </div>
-      <div class="card">
-        <div class="metric-label">Total Workers</div>
-        <div class="metric-value" id="workersTotal">—</div>
-        <div class="metric-note">Registered workers</div>
-      </div>
-      <div class="card">
-        <div class="metric-label">Workers Online</div>
-        <div class="metric-value" id="workersOnline" style="color:var(--accent)">—</div>
-        <div class="metric-note">Currently connected</div>
-      </div>
-      <div class="card">
-        <div class="metric-label">Workers Offline</div>
-        <div class="metric-value" id="workersOffline" style="color:var(--danger)">—</div>
-        <div class="metric-note">Not currently reporting</div>
-      </div>
-    </div>
-
-    <section class="panel" id="workersPanel">
-      <div class="section-head">
-        <div>
-          <h2>Workers</h2>
-          <div class="muted small" style="margin-top:5px">Worker status and share activity reported by PECPool</div>
-        </div>
-        <span class="status"><span class="dot" id="workerDot"></span><span id="workerCountLabel">0 workers</span></span>
-      </div>
-      <div id="workersLoading" class="loading">Loading worker information...</div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Worker Name</th>
-              <th>Status</th>
-              <th>Current Hashrate</th>
-              <th>24h Hashrate</th>
-              <th>Last Share (UTC)</th>
-              <th>Rejected (24h)</th>
-            </tr>
-          </thead>
-          <tbody id="workersBody"></tbody>
-        </table>
-      </div>
-      <div id="noWorkers" class="muted small" style="display:none;padding:14px 0">No worker records were returned by the API.</div>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <h2>Account Summary</h2>
-        <span class="muted small" id="accountName">Account: —</span>
-      </div>
-      <div class="info-grid">
-        <div class="info-box">
-          <div class="label">Account Status</div>
-          <div class="value" id="accountStatus">—</div>
-        </div>
-        <div class="info-box">
-          <div class="label">Paid Total</div>
-          <div class="value" id="paidBTC">— BTC</div>
-        </div>
-        <div class="info-box">
-          <div class="label">Unpaid / Waiting Balance</div>
-          <div class="value" id="waitingBTC">— BTC</div>
-        </div>
-        <div class="info-box">
-          <div class="label">Mining Pool</div>
-          <div class="value" id="farmName">PECPool</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <h2>Mining Servers</h2>
-        <span class="muted small">PECPool Stratum endpoints</span>
-      </div>
-      <div class="server-list">
-        <div class="server"><strong>Iran</strong><code>btc-ir.pecpool.com:8443</code></div>
-        <div class="server"><strong>Russia</strong><code>btc-ru.pecpool.com:3333</code></div>
-        <div class="server"><strong>Asia</strong><code>btc-as.pecpool.com:8443</code></div>
-      </div>
-      <div class="notice" style="margin:14px 0 0">
-        <strong>Miner username:</strong> <code>btpool.&lt;your_account_id&gt;</code><br>
-        <strong>Miner password:</strong> <code>x</code><br>
-        Use the account or worker identifier assigned to you by the pool. This dashboard displays API data and does not itself connect mining hardware.
-      </div>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <h2>Earnings Records</h2>
-        <span class="muted small">Data supplied by the pool API</span>
-      </div>
-      <div id="earningsLoading" class="loading">Loading earnings records...</div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr><th>Date (UTC)</th><th>Earned (BTC)</th><th>Estimated Value (USD)</th><th>24h Hashrate</th></tr>
-          </thead>
-          <tbody id="earningsBody"></tbody>
-        </table>
-      </div>
-      <div id="noEarnings" class="muted small" style="display:none;padding:14px 0">No earnings records were returned by the API.</div>
-    </section>
-
-    <section class="panel">
-      <div class="section-head">
-        <h2>Payout Records</h2>
-        <span class="muted small">Reported payments</span>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Date (UTC)</th><th>Amount (BTC)</th><th>Transaction ID</th><th>Status</th></tr></thead>
-          <tbody id="payoutsBody"></tbody>
-        </table>
-      </div>
-      <div id="noPayouts" class="muted small" style="padding:14px 0">No payout records were returned by the API.</div>
-    </section>
   </div>
 
-  <section class="panel" id="settings">
-    <div class="section-head">
-      <h2>Settings</h2>
-      <button type="button" onclick="toggleSettings()">Back to Dashboard</button>
-    </div>
-    <div class="settings-row">
-      <div><strong>Color Theme</strong><div class="muted small">Choose your dashboard appearance</div></div>
-      <select id="themeSelect" onchange="setTheme(this.value)">
-        <option value="dark">Dark Blue</option>
-        <option value="light">Light</option>
-        <option value="purple">Purple</option>
-        <option value="ocean">Ocean</option>
-        <option value="forest">Forest</option>
-        <option value="red">Red</option>
-        <option value="gold">Gold</option>
-        <option value="pink">Pink</option>
-        <option value="slate">Slate</option>
-        <option value="midnight">Midnight</option>
-      </select>
-    </div>
-    <div class="settings-row">
-      <div><strong>Automatic Refresh</strong><div class="muted small">Refresh pool data every 60 seconds</div></div>
-      <span class="pill online">Enabled</span>
-    </div>
-    <div class="settings-row">
-      <div><strong>Data Source</strong><div class="muted small">Supabase Edge Function → PECPool</div></div>
-      <span class="pill online">API</span>
-    </div>
-    <div style="margin-top:18px"><button type="button" onclick="toggleSettings()">Back to Dashboard</button></div>
-  </section>
-</main>
+  <div id="errorBox" class="error"></div>
+  <div id="lastUpdated" class="muted small" style="margin-bottom:16px">Waiting for pool data...</div>
 
+  <div class="grid">
+    <div class="card"><div class="metric-label">Pool Balance</div><div class="metric-value" id="balanceBTC">— BTC</div><div class="metric-note" id="balanceUSD">— USD</div></div>
+    <div class="card"><div class="metric-label">24h Hashrate</div><div class="metric-value" id="hashrate24">— TH/s</div><div class="metric-note">Reported by PECPool</div></div>
+    <div class="card"><div class="metric-label">Current Hashrate</div><div class="metric-value" id="hashrateCurrent">— TH/s</div><div class="metric-note">Reported by PECPool</div></div>
+    <div class="card"><div class="metric-label">Total Workers</div><div class="metric-value" id="workersTotal">—</div></div>
+    <div class="card"><div class="metric-label">Workers Online</div><div class="metric-value" id="workersOnline" style="color:var(--accent)">—</div></div>
+    <div class="card"><div class="metric-label">Workers Offline</div><div class="metric-value" id="workersOffline" style="color:var(--danger)">—</div></div>
+  </div>
+
+  <section class="panel">
+    <div class="section-head"><div><h2>Workers</h2><div class="muted small" style="margin-top:5px">Worker status and share activity</div></div><span class="status" id="workerCountLabel">0 workers</span></div>
+    <div id="workersLoading" class="loading">Loading worker information...</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Worker Name</th><th>Status</th><th>Current Hashrate</th><th>24h Hashrate</th><th>Last Share (UTC)</th><th>Rejected (24h)</th></tr></thead>
+      <tbody id="workersBody"></tbody>
+    </table></div>
+    <div id="noWorkers" class="muted small" style="display:none;padding:14px 0">No worker records returned.</div>
+  </section>
+
+  <section class="panel">
+    <div class="section-head"><h2>Account Summary</h2><span class="muted small" id="accountName">Account: —</span></div>
+    <div class="info-grid">
+      <div class="info-box"><div class="label">Account Status</div><div class="value" id="accountStatus">—</div></div>
+      <div class="info-box"><div class="label">Paid Total</div><div class="value" id="paidBTC">— BTC</div></div>
+      <div class="info-box"><div class="label">Unpaid / Waiting Balance</div><div class="value" id="waitingBTC">— BTC</div></div>
+      <div class="info-box"><div class="label">Mining Pool</div><div class="value" id="farmName">PECPool</div></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="section-head"><h2>Mining Servers</h2><span class="muted small">PECPool Stratum endpoints</span></div>
+    <div class="server-list">
+      <div class="server"><strong>Iran</strong><code>btc-ir.pecpool.com:8443</code></div>
+      <div class="server"><strong>Russia</strong><code>btc-ru.pecpool.com:3333</code></div>
+      <div class="server"><strong>Asia</strong><code>btc-as.pecpool.com:8443</code></div>
+    </div>
+    <div class="notice" style="margin:14px 0 0">
+      <strong>Miner username:</strong> <code>btpool.&lt;your_account_id&gt;</code><br>
+      <strong>Miner password:</strong> <code>x</code><br>
+      Use the account or worker identifier assigned by your pool.
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="section-head"><h2>Earnings Records</h2><span class="muted small">Data supplied by the pool API</span></div>
+    <div id="earningsLoading" class="loading">Loading earnings...</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Date (UTC)</th><th>Earned (BTC)</th><th>Estimated Value (USD)</th><th>24h Hashrate</th></tr></thead>
+      <tbody id="earningsBody"></tbody>
+    </table></div>
+    <div id="noEarnings" class="muted small" style="display:none;padding:14px 0">No earnings records returned.</div>
+  </section>
+
+  <section class="panel">
+    <div class="section-head"><h2>Payout Records</h2><span class="muted small">Reported payments</span></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Date (UTC)</th><th>Amount (BTC)</th><th>Transaction ID</th><th>Status</th></tr></thead>
+      <tbody id="payoutsBody"></tbody>
+    </table></div>
+    <div id="noPayouts" class="muted small" style="padding:14px 0">No payout records returned.</div>
+  </section>
+</div>
+
+<section class="panel" id="settings">
+  <div class="section-head"><h2>Settings</h2><button onclick="toggleSettings()">Back to Dashboard</button></div>
+
+  <div class="settings-row">
+    <div><strong>Color Theme</strong><div class="muted small">Choose your dashboard appearance</div></div>
+    <select id="themeSelect" style="max-width:180px" onchange="setTheme(this.value)">
+      <option value="dark">Dark Blue</option><option value="light">Light</option>
+      <option value="purple">Purple</option><option value="ocean">Ocean</option>
+      <option value="forest">Forest</option><option value="red">Red</option>
+      <option value="gold">Gold</option><option value="pink">Pink</option>
+      <option value="slate">Slate</option><option value="midnight">Midnight</option>
+    </select>
+  </div>
+
+  <div style="margin-top:22px">
+    <h2 style="margin-bottom:8px">Bitcoin Withdrawal</h2>
+    <p class="muted small">Enter your BTC receiving address and the amount you want to request.</p>
+    <div class="notice">Minimum withdrawal: <strong>0.001 BTC</strong>. This form records a request in this browser only. It does not transfer Bitcoin or submit the request to the pool administrator.</div>
+    <div id="withdrawError" class="error"></div>
+    <div id="withdrawSuccess" class="success"></div>
+    <form id="withdrawForm">
+      <div class="field">
+        <label for="btcAddress">Bitcoin Receiving Address</label>
+        <input id="btcAddress" name="btcAddress" type="text" maxlength="120" autocomplete="off" placeholder="Enter your Bitcoin address" required>
+      </div>
+      <div class="field">
+        <label for="withdrawAmount">Withdrawal Amount (BTC)</label>
+        <input id="withdrawAmount" name="withdrawAmount" type="number" min="0.001" step="0.00000001" placeholder="Minimum 0.001 BTC" required>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="primary">Create Withdrawal Request</button>
+        <button type="button" onclick="loadWithdrawalRecords()">Refresh Requests</button>
+      </div>
+    </form>
+  </div>
+
+  <div style="margin-top:28px">
+    <div class="section-head"><h2>Withdrawal Requests</h2><span class="muted small">Saved in this browser</span></div>
+    <div class="notice">These local records are not shared with an administrator and may not appear on another device or browser.</div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Request Date</th><th>BTC Address</th><th>Amount</th><th>Status</th></tr></thead>
+      <tbody id="withdrawalBody"></tbody>
+    </table></div>
+    <div id="noWithdrawals" class="muted small" style="padding:14px 0">No local withdrawal requests.</div>
+  </div>
+  <div style="margin-top:20px"><button onclick="toggleSettings()">Back to Dashboard</button></div>
+</section>
+</main>
 <footer>BTCPOOL · Bitcoin Mining Pool Dashboard · Pool data may be delayed.</footer>
 
 <script>
@@ -277,290 +203,250 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 
 const API_URL = "https://juizoasgdtisnesiojqi.supabase.co/functions/v1/hyper-endpoint";
 const REFRESH_INTERVAL_MS = 60000;
-let refreshTimer = null;
+const MIN_WITHDRAWAL = 0.001;
 let isLoading = false;
 
-function byId(id) {
-  return document.getElementById(id);
-}
+const $ = id => document.getElementById(id);
+const safeNumber = v => Number.isFinite(Number(v)) ? Number(v) : 0;
 
 function setText(id, value) {
-  byId(id).textContent = value == null || value === "" ? "—" : String(value);
+  $(id).textContent = value == null || value === "" ? "—" : String(value);
 }
-
-function numeric(value) {
-  const n = Number(value);
-  return Number.isFinite(n) ? n : 0;
+function fmtNum(v, digits=4) {
+  return safeNumber(v).toLocaleString("en-US",{maximumFractionDigits:digits});
 }
-
-function formatNumber(value, maxDigits = 4) {
-  return numeric(value).toLocaleString("en-US", {
-    maximumFractionDigits: maxDigits
-  });
+function fmtBTC(v) {
+  return safeNumber(v).toLocaleString("en-US",{maximumFractionDigits:8});
 }
-
-function formatBTC(value) {
-  return numeric(value).toLocaleString("en-US", {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 8
-  });
+function fmtDate(v) {
+  if (!v) return "—";
+  const d = new Date(v);
+  return Number.isNaN(d.getTime()) ? String(v) : d.toISOString().replace("T"," ").replace(".000Z"," UTC").replace("Z"," UTC");
 }
-
-function formatDate(value) {
-  if (!value) return "—";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return String(value);
-  return date.toISOString().replace("T", " ").replace(".000Z", " UTC").replace("Z", " UTC");
-}
-
-function normalizeStatus(status) {
-  const s = String(status || "").toLowerCase();
-  if (s === "online" || s === "active" || s === "connected") return "online";
-  if (s === "offline" || s === "inactive" || s === "disconnected") return "offline";
+function normalizeStatus(v) {
+  const s = String(v || "").toLowerCase();
+  if (["online","active","connected"].includes(s)) return "online";
+  if (["offline","inactive","disconnected"].includes(s)) return "offline";
   return "unknown";
 }
-
-function statusPill(status) {
-  const normalized = normalizeStatus(status);
-  const label = normalized === "online" ? "Online" :
-                normalized === "offline" ? "Offline" : "Unknown";
-  return '<span class="pill ' + normalized + '">' + label + '</span>';
+function statusPill(v) {
+  const s = normalizeStatus(v);
+  const label = s === "online" ? "Online" : s === "offline" ? "Offline" : "Unknown";
+  return '<span class="pill '+s+'">'+label+'</span>';
 }
-
 function showError(message) {
-  const box = byId("errorBox");
-  box.textContent = message;
-  box.style.display = "block";
+  $("errorBox").textContent = message;
+  $("errorBox").style.display = "block";
 }
-
 function clearError() {
-  byId("errorBox").textContent = "";
-  byId("errorBox").style.display = "none";
+  $("errorBox").textContent = "";
+  $("errorBox").style.display = "none";
 }
-
-function setConnection(ok, label) {
-  byId("connectionStatus").textContent = label;
-  byId("connectionDot").className = "dot " + (ok ? "green" : "red");
-}
-
 function unwrapResponse(json) {
-  // Supports the API response shape:
-  // { ok:true, data:{ success:true, data:{ farm, accounts } } }
-  let payload = json;
-  if (payload && payload.data && payload.data.data) {
-    payload = payload.data.data;
-  } else if (payload && payload.data) {
-    payload = payload.data;
-  }
-
-  const farm = payload.farm || {};
-  const accounts = Array.isArray(payload.accounts) ? payload.accounts : [];
+  let p = json;
+  if (p && p.data && p.data.data) p = p.data.data;
+  else if (p && p.data) p = p.data;
+  const farm = p.farm || {};
+  const accounts = Array.isArray(p.accounts) ? p.accounts : [];
   const account = accounts[0] || {};
-  const summary = account.summary || farm || {};
-
   return {
-    farm,
-    account,
-    summary,
+    farm, account, summary: account.summary || farm,
     workers: Array.isArray(account.workers) ? account.workers : [],
-    earnings: account.earnings && Array.isArray(account.earnings.items)
-      ? account.earnings.items : [],
-    payouts: account.payouts && Array.isArray(account.payouts.items)
-      ? account.payouts.items : [],
-    fetchedAt: json.fetchedAt || payload.fetchedAt || null
+    earnings: account.earnings && Array.isArray(account.earnings.items) ? account.earnings.items : [],
+    payouts: account.payouts && Array.isArray(account.payouts.items) ? account.payouts.items : [],
+    fetchedAt: json.fetchedAt || p.fetchedAt || null
   };
 }
+function renderDashboard(r) {
+  const s = r.summary, a = r.account, f = r.farm;
+  setText("balanceBTC",fmtBTC(s.balanceBTC)+" BTC");
+  setText("balanceUSD","$"+fmtNum(s.balanceUSD,2));
+  setText("hashrate24",fmtNum(s.hashrate24hTHs)+" TH/s");
+  setText("hashrateCurrent",fmtNum(s.hashrateTHs)+" TH/s");
 
-function renderDashboard(result) {
-  const farm = result.farm;
-  const account = result.account;
-  const summary = result.summary;
-  const workers = result.workers;
-
-  setText("balanceBTC", formatBTC(summary.balanceBTC) + " BTC");
-  setText("balanceUSD", "$" + formatNumber(summary.balanceUSD, 2));
-  setText("hashrate24", formatNumber(summary.hashrate24hTHs, 4) + " TH/s");
-  setText("hashrateCurrent", formatNumber(summary.hashrateTHs, 4) + " TH/s");
-
-  const totalWorkers = summary.workersTotal ?? summary.totalWorkers ?? farm.totalWorkers ?? workers.length;
-  const onlineWorkers = summary.workersOnline ?? summary.onlineWorkers ??
-    workers.filter(w => normalizeStatus(w.status) === "online").length;
-  const offlineWorkers = summary.workersOffline ?? summary.offlineWorkers ??
-    workers.filter(w => normalizeStatus(w.status) === "offline").length;
-
-  setText("workersTotal", totalWorkers);
-  setText("workersOnline", onlineWorkers);
-  setText("workersOffline", offlineWorkers);
-  setText("workerCountLabel", workers.length + (workers.length === 1 ? " worker" : " workers"));
-
-  byId("workerDot").className = "dot " + (Number(onlineWorkers) > 0 ? "green" : "red");
-  setText("accountName", "Account: " + (account.account || summary.account || "—"));
-  setText("accountStatus", account.active === true ? "Active" :
-    account.active === false ? "Inactive" : "—");
-  setText("paidBTC", formatBTC(summary.paidBTC) + " BTC");
-  setText("waitingBTC", formatBTC(summary.waitingBTC) + " BTC");
-  setText("farmName", farm.farmName || "PECPool");
-
-  renderWorkers(workers);
-  renderEarnings(result.earnings);
-  renderPayouts(result.payouts);
-
-  const timestamp = result.fetchedAt || farm.lastUpdateUtc || summary.lastUpdateUtc;
-  setText("lastUpdated", "Last data update: " + formatDate(timestamp));
+  const total = s.workersTotal ?? s.totalWorkers ?? f.totalWorkers ?? r.workers.length;
+  const online = s.workersOnline ?? s.onlineWorkers ?? f.onlineWorkers ?? r.workers.filter(w=>normalizeStatus(w.status)==="online").length;
+  const offline = s.workersOffline ?? s.offlineWorkers ?? f.offlineWorkers ?? r.workers.filter(w=>normalizeStatus(w.status)==="offline").length;
+  setText("workersTotal",total);
+  setText("workersOnline",online);
+  setText("workersOffline",offline);
+  setText("workerCountLabel",r.workers.length+(r.workers.length===1?" worker":" workers"));
+  $("connectionDot").className="dot green";
+  setText("connectionStatus","API Connected");
+  setText("accountName","Account: "+(a.account||s.account||"—"));
+  setText("accountStatus",a.active===true?"Active":a.active===false?"Inactive":"—");
+  setText("paidBTC",fmtBTC(s.paidBTC)+" BTC");
+  setText("waitingBTC",fmtBTC(s.waitingBTC)+" BTC");
+  setText("farmName",f.farmName||"PECPool");
+  setText("lastUpdated","Last data update: "+fmtDate(r.fetchedAt||f.lastUpdateUtc||s.lastUpdateUtc));
+  renderWorkers(r.workers);
+  renderEarnings(r.earnings);
+  renderPayouts(r.payouts);
 }
-
-function renderWorkers(workers) {
-  const tbody = byId("workersBody");
-  tbody.replaceChildren();
-  byId("workersLoading").style.display = "none";
-  byId("noWorkers").style.display = workers.length ? "none" : "block";
-
-  workers.forEach(worker => {
-    const row = document.createElement("tr");
-
-    const name = document.createElement("td");
-    name.textContent = worker.workerName || worker.name || worker.worker || "Unnamed worker";
-
-    const status = document.createElement("td");
-    status.innerHTML = statusPill(worker.status);
-
-    const current = document.createElement("td");
-    current.textContent = formatNumber(worker.hashrateTHs, 4) + " TH/s";
-
-    const daily = document.createElement("td");
-    daily.textContent = formatNumber(worker.hashrate24hTHs, 4) + " TH/s";
-
-    const lastShare = document.createElement("td");
-    lastShare.textContent = formatDate(worker.lastShareUtc || worker.lastSeenUtc);
-
-    const rejected = document.createElement("td");
-    rejected.textContent = formatNumber(worker.rejected24h, 0);
-
-    row.append(name, status, current, daily, lastShare, rejected);
-    tbody.appendChild(row);
-  });
-}
-
-function renderEarnings(items) {
-  const tbody = byId("earningsBody");
-  tbody.replaceChildren();
-  byId("earningsLoading").style.display = "none";
-  byId("noEarnings").style.display = items.length ? "none" : "block";
-
-  items.forEach(item => {
-    const row = document.createElement("tr");
-    [
-      formatDate(item.dateUtc || item.date || item.createdAt),
-      formatBTC(item.earnBTC) + " BTC",
-      "$" + formatNumber(item.earnUSD, 2),
-      formatNumber(item.hashrate24hTHs, 4) + " TH/s"
-    ].forEach(value => {
-      const cell = document.createElement("td");
-      cell.textContent = value;
-      row.appendChild(cell);
-    });
-    tbody.appendChild(row);
-  });
-}
-
-function renderPayouts(items) {
-  const tbody = byId("payoutsBody");
-  tbody.replaceChildren();
-  byId("noPayouts").style.display = items.length ? "none" : "block";
-
-  items.forEach(item => {
-    const row = document.createElement("tr");
-    const values = [
-      formatDate(item.dateUtc || item.date || item.createdAt),
-      formatBTC(item.amountBTC || item.amount || item.paidBTC) + " BTC",
-      item.txid || item.transactionId || "—",
-      item.status || "Reported by pool"
+function renderWorkers(items) {
+  const body=$("workersBody"); body.replaceChildren();
+  $("workersLoading").style.display="none";
+  $("noWorkers").style.display=items.length?"none":"block";
+  items.forEach(w=>{
+    const tr=document.createElement("tr");
+    const values=[
+      w.workerName||w.name||w.worker||"Unnamed worker",
+      null,
+      fmtNum(w.hashrateTHs)+" TH/s",
+      fmtNum(w.hashrate24hTHs)+" TH/s",
+      fmtDate(w.lastShareUtc||w.lastSeenUtc),
+      fmtNum(w.rejected24h,0)
     ];
-    values.forEach(value => {
-      const cell = document.createElement("td");
-      cell.textContent = String(value);
-      row.appendChild(cell);
+    values.forEach((v,i)=>{
+      const td=document.createElement("td");
+      if(i===1) td.innerHTML=statusPill(w.status);
+      else td.textContent=String(v);
+      tr.appendChild(td);
     });
-    tbody.appendChild(row);
+    body.appendChild(tr);
   });
 }
-
-async function loadDashboard() {
-  if (isLoading) return;
-  isLoading = true;
-  const refreshButton = byId("refreshButton");
-  refreshButton.disabled = true;
-  refreshButton.textContent = "Loading...";
-  clearError();
-
-  try {
-    const response = await fetch(API_URL, {
-      method: "GET",
-      cache: "no-store",
-      headers: { "Accept": "application/json" }
+function renderEarnings(items) {
+  const body=$("earningsBody"); body.replaceChildren();
+  $("earningsLoading").style.display="none";
+  $("noEarnings").style.display=items.length?"none":"block";
+  items.forEach(x=>{
+    const tr=document.createElement("tr");
+    [fmtDate(x.dateUtc||x.date),fmtBTC(x.earnBTC)+" BTC","$"+fmtNum(x.earnUSD,2),fmtNum(x.hashrate24hTHs)+" TH/s"].forEach(v=>{
+      const td=document.createElement("td");td.textContent=v;tr.appendChild(td);
     });
-
-    const rawText = await response.text();
+    body.appendChild(tr);
+  });
+}
+function renderPayouts(items) {
+  const body=$("payoutsBody"); body.replaceChildren();
+  $("noPayouts").style.display=items.length?"none":"block";
+  items.forEach(x=>{
+    const tr=document.createElement("tr");
+    [fmtDate(x.dateUtc||x.date||x.createdAt),fmtBTC(x.amountBTC||x.amount||x.paidBTC)+" BTC",x.txid||x.transactionId||"—",x.status||"Reported by pool"].forEach(v=>{
+      const td=document.createElement("td");td.textContent=String(v);tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  });
+}
+async function loadDashboard() {
+  if(isLoading)return;
+  isLoading=true;
+  $("refreshButton").disabled=true;
+  $("refreshButton").textContent="Loading...";
+  clearError();
+  try {
+    const res=await fetch(API_URL,{method:"GET",cache:"no-store",headers:{"Accept":"application/json"}});
+    const text=await res.text();
     let json;
-    try {
-      json = JSON.parse(rawText);
-    } catch {
-      throw new Error("The API did not return valid JSON. Check the Supabase Edge Function response.");
-    }
-
-    if (!response.ok) {
-      throw new Error("API request failed (HTTP " + response.status + "). " +
-        (json.message || json.error || rawText.slice(0, 180)));
-    }
-
-    if (json.ok === false || json.success === false) {
-      throw new Error(json.message || json.error || "The API reported an error.");
-    }
-
-    const result = unwrapResponse(json);
-    if (!result.account && !result.farm) {
-      throw new Error("The API responded, but no farm or account data was found. Check the JSON structure.");
-    }
-
-    renderDashboard(result);
-    setConnection(true, "API Connected");
-  } catch (error) {
-    setConnection(false, "API Error");
-    showError("Could not load pool data: " + (error.message || String(error)) +
-      " If this is a CORS error, enable CORS in the Supabase Edge Function.");
-    byId("lastUpdated").textContent = "Refresh failed. The values shown may be from the previous successful update.";
+    try{json=JSON.parse(text)}catch{throw new Error("API did not return valid JSON.")}
+    if(!res.ok)throw new Error("HTTP "+res.status+": "+(json.message||json.error||text.slice(0,160)));
+    if(json.ok===false||json.success===false)throw new Error(json.message||json.error||"API reported an error.");
+    const r=unwrapResponse(json);
+    if(!r.account&&!r.farm)throw new Error("No farm or account data was returned.");
+    renderDashboard(r);
+  } catch(e) {
+    $("connectionDot").className="dot red";
+    setText("connectionStatus","API Error");
+    showError("Could not load pool data: "+(e.message||String(e)));
+    setText("lastUpdated","Refresh failed. Displayed values may be from the previous update.");
   } finally {
-    isLoading = false;
-    refreshButton.disabled = false;
-    refreshButton.textContent = "↻ Refresh";
+    isLoading=false;
+    $("refreshButton").disabled=false;
+    $("refreshButton").textContent="↻ Refresh";
   }
 }
 
 function toggleSettings() {
-  const settings = byId("settings");
-  const dashboard = byId("dashboard");
-  const showingSettings = settings.style.display === "block";
-  settings.style.display = showingSettings ? "none" : "block";
-  dashboard.style.display = showingSettings ? "block" : "none";
-  byId("settingsButton").textContent = showingSettings ? "⚙ Settings" : "← Dashboard";
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  const showing=$("settings").style.display==="block";
+  $("settings").style.display=showing?"none":"block";
+  $("dashboard").style.display=showing?"block":"none";
+  $("settingsButton").textContent=showing?"⚙ Settings":"← Dashboard";
+  if(!showing)loadWithdrawalRecords();
+  window.scrollTo({top:0,behavior:"smooth"});
 }
-
 function setTheme(theme) {
-  const validThemes = ["dark","light","purple","ocean","forest","red","gold","pink","slate","midnight"];
-  const selected = validThemes.includes(theme) ? theme : "dark";
-  document.body.dataset.theme = selected;
-  try { localStorage.setItem("btcpool-theme", selected); } catch {}
-  byId("themeSelect").value = selected;
+  const valid=["dark","light","purple","ocean","forest","red","gold","pink","slate","midnight"];
+  const t=valid.includes(theme)?theme:"dark";
+  document.body.dataset.theme=t;
+  $("themeSelect").value=t;
+  try{localStorage.setItem("btcpool-theme",t)}catch{}
 }
 
-(function init() {
-  let savedTheme = "dark";
-  try { savedTheme = localStorage.getItem("btcpool-theme") || "dark"; } catch {}
-  setTheme(savedTheme);
+/* Local browser storage only. Not a secure server-side withdrawal system. */
+function getWithdrawalRecords() {
+  try {
+    const items=JSON.parse(localStorage.getItem("btcpool-withdrawal-requests")||"[]");
+    return Array.isArray(items)?items:[];
+  } catch { return []; }
+}
+function saveWithdrawalRecords(items) {
+  localStorage.setItem("btcpool-withdrawal-requests",JSON.stringify(items));
+}
+function showWithdrawalError(msg) {
+  $("withdrawError").textContent=msg;
+  $("withdrawError").style.display="block";
+  $("withdrawSuccess").style.display="none";
+}
+function showWithdrawalSuccess(msg) {
+  $("withdrawSuccess").textContent=msg;
+  $("withdrawSuccess").style.display="block";
+  $("withdrawError").style.display="none";
+}
+function loadWithdrawalRecords() {
+  const body=$("withdrawalBody"); body.replaceChildren();
+  let records=[];
+  try { records=getWithdrawalRecords(); }
+  catch { showWithdrawalError("This browser cannot save withdrawal requests."); }
+  $("noWithdrawals").style.display=records.length?"none":"block";
+  records.slice().reverse().forEach(item=>{
+    const tr=document.createElement("tr");
+    [fmtDate(item.createdAt),item.address,fmtBTC(item.amount)+" BTC",item.status||"Pending (local only)"].forEach(v=>{
+      const td=document.createElement("td");td.textContent=String(v);tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  });
+}
+$("withdrawForm").addEventListener("submit",function(event){
+  event.preventDefault();
+  $("withdrawError").style.display="none";
+  $("withdrawSuccess").style.display="none";
+
+  const address=$("btcAddress").value.trim();
+  const raw=$("withdrawAmount").value.trim();
+  const amount=Number(raw);
+
+  if(!address) return showWithdrawalError("Enter your Bitcoin receiving address.");
+  if(address.length<14||/\s/.test(address)) return showWithdrawalError("Check the Bitcoin address format and remove spaces.");
+  if(!Number.isFinite(amount)||amount<MIN_WITHDRAWAL) return showWithdrawalError("Minimum withdrawal is 0.001 BTC.");
+  if(!/^\d+(\.\d{1,8})?$/.test(raw)) return showWithdrawalError("Enter an amount with up to 8 decimal places.");
+
+  try {
+    const records=getWithdrawalRecords();
+    records.push({
+      id:"local-"+Date.now(),
+      address,
+      amount,
+      createdAt:new Date().toISOString(),
+      status:"Pending (local only)"
+    });
+    saveWithdrawalRecords(records);
+    loadWithdrawalRecords();
+    showWithdrawalSuccess("Request saved in this browser only. It has NOT been sent to the pool administrator and no Bitcoin has been transferred.");
+    $("withdrawAmount").value="";
+  } catch {
+    showWithdrawalError("Could not save the request in this browser. Check browser storage settings.");
+  }
+});
+
+(function init(){
+  let theme="dark";
+  try{theme=localStorage.getItem("btcpool-theme")||"dark"}catch{}
+  setTheme(theme);
+  loadWithdrawalRecords();
   loadDashboard();
-  refreshTimer = window.setInterval(loadDashboard, REFRESH_INTERVAL_MS);
+  window.setInterval(loadDashboard,REFRESH_INTERVAL_MS);
 })();
 </script>
 </body>
-          </html>
+  </html>
