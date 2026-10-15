@@ -1,291 +1,1210 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#eaf5ff">
-<title>BTCPOOL | Bitcoin Mining Pool</title>
-<style>
-:root{
- --bg:#eaf5ff;--card:#fff;--soft:#f4f9ff;--border:#d5e6f5;
- --text:#17324d;--muted:#6d849b;--accent:#1688e8;--accent2:#dff0ff;
- --good:#13895e;--bad:#d94354;--shadow:0 5px 22px rgba(34,92,143,.07)
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:14px Arial,Helvetica,sans-serif}
-button,input{font:inherit}
-button{cursor:pointer}
-.wrap{max-width:1750px;margin:auto;padding:20px}
-header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:44px;height:44px;display:grid;place-items:center;border-radius:13px;background:var(--accent);color:#fff;font-size:26px;font-weight:bold}
-h1{font-size:23px;letter-spacing:.6px;margin:0}
-.subtitle{font-size:12px;color:var(--muted);margin-top:5px}
-.header-right{text-align:right;color:var(--muted);font-size:11px}
-.header-right strong{display:block;color:var(--text);font-size:13px;margin-top:5px}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:24px 0 12px}
-.section-head h2{font-size:16px;margin:0}
-.panel,.metric{background:var(--card);border:1px solid var(--border);border-radius:13px;box-shadow:var(--shadow)}
-.panel{padding:18px;min-width:0}
-.grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
-.metric{padding:16px;min-width:0}
-.metric-label{color:var(--muted);font-size:12px;margin-bottom:12px}
-.metric-value{font-size:clamp(17px,1.6vw,25px);font-weight:700;overflow-wrap:anywhere}
-.metric-foot{font-size:11px;color:var(--muted);margin-top:9px}
-.green{color:var(--good)}.red{color:var(--bad)}.muted{color:var(--muted)}
-.two-col{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,1fr);gap:14px}
-.rowline{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--border)}
-.rowline:last-child{border-bottom:0}
-.rowline>span:first-child{color:var(--muted)}
-.rowline strong{text-align:right;overflow-wrap:anywhere}
-.field-label{display:block;color:var(--muted);font-size:12px;margin:14px 0 7px}
-input{width:100%;background:var(--soft);border:1px solid var(--border);border-radius:9px;padding:12px;color:var(--text);outline:none}
-input:focus{border-color:var(--accent)}
-.btn{background:var(--accent);color:white;border:1px solid var(--accent);border-radius:9px;padding:11px 15px;font-weight:600}
-.btn.secondary{background:var(--soft);color:var(--text);border-color:var(--border)}
-.btn.small{padding:7px 10px;font-size:11px}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
-.badge{display:inline-block;background:var(--accent2);color:var(--accent);padding:5px 9px;border-radius:20px;font-size:11px}
-.notice{padding:12px;background:var(--soft);border:1px solid var(--border);border-radius:9px;color:var(--muted);font-size:12px;line-height:1.65;margin-top:13px}
-.server{padding:13px 0;border-bottom:1px solid var(--border)}
-.server:last-of-type{border-bottom:0}
-.server-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px}
-.server-title{font-weight:bold}
-.endpoint{display:flex;align-items:center;justify-content:space-between;gap:9px}
-code{font-family:ui-monospace,Consolas,monospace;font-size:12px;white-space:normal;overflow-wrap:anywhere}
-#loginView{max-width:520px;margin:55px auto}
-#loginView .panel{padding:25px}
-#loginView h2{margin:0 0 9px;font-size:21px}
-#dashboard{display:none}
-.theme-list{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-top:12px}
-.theme-btn{padding:10px 5px;border:1px solid var(--border);border-radius:9px;background:var(--soft);color:var(--text);font-size:11px}
-.theme-btn.active{outline:2px solid var(--accent);outline-offset:1px}
-.swatch{height:18px;border-radius:5px;margin-bottom:6px}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th,td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--border);overflow-wrap:anywhere}
-th{color:var(--muted);font-weight:600}
-footer{text-align:center;color:var(--muted);font-size:11px;border-top:1px solid var(--border);padding:18px 0;margin-top:26px}
-#message{font-size:12px;line-height:1.65;margin-top:12px;white-space:pre-wrap}
-#errorBox{color:var(--bad)}
-@media(max-width:1200px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:780px){
- .wrap{padding:13px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
- .metric{padding:13px}.metric-value{font-size:19px}.two-col{grid-template-columns:1fr}
- .theme-list{grid-template-columns:repeat(2,minmax(0,1fr))}#loginView{margin:28px auto}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101c32">
+  <title>BTCPOOL | Bitcoin Mining Pool</title>
+
+  <style>
+    :root {
+      --bg: #eef4fb;
+      --panel: #ffffff;
+      --panel2: #f5f8fc;
+      --text: #172b46;
+      --muted: #73849c;
+      --border: #dce5f0;
+      --accent: #2377ee;
+      --accent2: #17b890;
+      --danger: #e34d59;
+      --shadow: 0 8px 28px rgba(28, 52, 86, .07);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      transition: background .2s, color .2s;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button { cursor: pointer; }
+
+    .app {
+      width: min(1250px, 100%);
+      margin: auto;
+      padding: 20px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+
+    .subtitle, .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .btn:disabled {
+      opacity: .55;
+      cursor: wait;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .login-wrap {
+      max-width: 470px;
+      margin: 55px auto;
+    }
+
+    .login-wrap .panel { padding: 28px; }
+
+    .field { margin-bottom: 16px; }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel2);
+      color: var(--text);
+      outline: none;
+    }
+
+    .field input:focus, .field select:focus {
+      border-color: var(--accent);
+    }
+
+    .full { width: 100%; }
+
+    .notice {
+      border: 1px solid var(--border);
+      background: var(--panel2);
+      border-radius: 11px;
+      padding: 12px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--muted);
+      overflow-wrap: anywhere;
+    }
+
+    .status-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #9aa8ba;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .dot.green { background: #16b982; }
+    .dot.red { background: var(--danger); }
+    .dot.yellow { background: #e5a52b; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .stat-card {
+      padding: 19px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      min-width: 0;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 13px;
+    }
+
+    .stat-value {
+      font-size: clamp(18px, 2.5vw, 25px);
+      font-weight: 800;
+      overflow-wrap: anywhere;
+    }
+
+    .stat-note {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .section-title h2 {
+      font-size: 17px;
+      margin: 0;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .detail-row:last-child { border-bottom: 0; }
+
+    .detail-row span:first-child { color: var(--muted); }
+
+    .detail-row strong {
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+
+    .server {
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 13px;
+      margin-bottom: 10px;
+    }
+
+    .server:last-child { margin-bottom: 0; }
+
+    .server-name {
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .server code {
+      font-size: 12px;
+      overflow-wrap: anywhere;
+      color: var(--accent);
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      min-width: 450px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .theme-btn {
+      min-height: 70px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel2);
+      color: var(--text);
+      padding: 10px 5px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .theme-btn.active { border-color: var(--accent); }
+
+    .theme-swatch {
+      display: block;
+      width: 28px;
+      height: 16px;
+      border-radius: 5px;
+      margin: 0 auto 8px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 25px 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .hidden { display: none !important; }
+
+    .error {
+      color: var(--danger);
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+
+    .success { color: var(--accent2); }
+
+    @media (max-width: 800px) {
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .content-grid { grid-template-columns: 1fr; }
+      .theme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .app { padding: 13px; }
+    }
+
+    @media (max-width: 390px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .top-actions { width: 100%; }
+      .top-actions .btn { flex: 1; }
+    }
+
+    /* Ten themes */
+    body[data-theme="dark"] {
+      --bg: #0b1220; --panel: #131e30; --panel2: #19273b;
+      --text: #e9f0fa; --muted: #9aabc2; --border: #2a3a51;
+      --accent: #4a91ff; --accent2: #22d3a3;
+      --shadow: 0 8px 28px rgba(0,0,0,.15);
+    }
+
+    body[data-theme="green"] {
+      --bg: #edf7f0; --panel: #fff; --panel2: #f2faf4;
+      --text: #173a28; --muted: #688675; --border: #d5e8da;
+      --accent: #17844a; --accent2: #20ad83;
+    }
+
+    body[data-theme="purple"] {
+      --bg: #f4f0fb; --panel: #fff; --panel2: #f8f5fd;
+      --text: #302044; --muted: #88789d; --border: #e4daef;
+      --accent: #8252d6; --accent2: #bd65d9;
+    }
+
+    body[data-theme="orange"] {
+      --bg: #fff5ec; --panel: #fff; --panel2: #fff8f1;
+      --text: #492d1b; --muted: #9a7d67; --border: #f0dfcf;
+      --accent: #e47a21; --accent2: #16ad88;
+    }
+
+    body[data-theme="red"] {
+      --bg: #fff0f1; --panel: #fff; --panel2: #fff6f6;
+      --text: #452126; --muted: #9a777d; --border: #f0d8dc;
+      --accent: #d94255; --accent2: #19aa83;
+    }
+
+    body[data-theme="cyan"] {
+      --bg: #eaf8fb; --panel: #fff; --panel2: #f2fbfd;
+      --text: #153641; --muted: #6e8d97; --border: #d3eaf0;
+      --accent: #0797b7; --accent2: #16b68b;
+    }
+
+    body[data-theme="gold"] {
+      --bg: #faf6e9; --panel: #fffdf7; --panel2: #fbf7eb;
+      --text: #40361d; --muted: #918365; --border: #e9dfc4;
+      --accent: #ad841c; --accent2: #259b75;
+    }
+
+    body[data-theme="rose"] {
+      --bg: #fff0f6; --panel: #fff; --panel2: #fff7fa;
+      --text: #49243a; --muted: #9b7890; --border: #f0d9e6;
+      --accent: #d94d91; --accent2: #17ad88;
+    }
+
+    body[data-theme="slate"] {
+      --bg: #e9edf2; --panel: #fff; --panel2: #f4f6f9;
+      --text: #263442; --muted: #7b8996; --border: #d7dfe7;
+      --accent: #526c87; --accent2: #1aa584;
+    }
+  </style>
 </head>
-<body>
-<div class="wrap">
 
-<header>
- <div class="brand">
-  <div class="logo">₿</div>
-  <div><h1>BTCPOOL</h1><div class="subtitle">Bitcoin Mining Pool Dashboard</div></div>
- </div>
- <div class="header-right">ACCOUNT<strong id="headerAccount">Not signed in</strong></div>
-</header>
+<body data-theme="light">
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">₿</div>
+        <div>
+          <h1>BTCPOOL</h1>
+          <div class="subtitle">Bitcoin Mining Pool Dashboard</div>
+        </div>
+      </div>
 
-<section id="loginView">
- <div class="panel">
-  <h2>Open Your Miner Dashboard</h2>
-  <p class="muted">Enter your Bitcoin address to open your dashboard.</p>
-  <label class="field-label" for="loginAddress">Bitcoin Address</label>
-  <input id="loginAddress" autocomplete="off" spellcheck="false" placeholder="Enter your BTC address">
-  <div class="actions"><button class="btn" id="loginButton">Continue</button></div>
-  <div class="notice">Worker username: <code>btpool.YOUR_BTC_ADDRESS</code><br>Worker password: <code>x</code><br>Never enter your private key or recovery phrase.</div>
-  <div id="loginMessage" class="muted"></div>
- </div>
-</section>
+      <div class="top-actions hidden" id="dashboardActions">
+        <button class="btn" id="refreshBtn" type="button">↻ Refresh</button>
+        <button class="btn" id="settingsBtn" type="button">⚙ Settings</button>
+        <button class="btn" id="logoutBtn" type="button">Log Out</button>
+      </div>
+    </header>
 
-<main id="dashboard">
- <div class="section-head"><h2>Mining Overview</h2><span class="badge" id="apiStatus">API not connected</span></div>
- <div class="grid">
-  <div class="metric"><div class="metric-label">Estimated Balance</div><div class="metric-value" id="balance">—</div><div class="metric-foot">BTC · cumulative</div></div>
-  <div class="metric"><div class="metric-label">Estimated Earnings · 24h</div><div class="metric-value" id="earnings24">—</div><div class="metric-foot">BTC · awaiting pool API</div></div>
-  <div class="metric"><div class="metric-label">Hashrate · 1 Hour</div><div class="metric-value" id="hash1h">—</div><div class="metric-foot">Miner hashrate</div></div>
-  <div class="metric"><div class="metric-label">Hashrate · 12 Hours</div><div class="metric-value" id="hash12h">—</div><div class="metric-foot">Miner hashrate</div></div>
-  <div class="metric"><div class="metric-label">Hashrate · 24 Hours</div><div class="metric-value" id="hash24h">—</div><div class="metric-foot">Miner hashrate</div></div>
-  <div class="metric"><div class="metric-label">Workers Online</div><div class="metric-value green" id="workersOnline">—</div><div class="metric-foot"><span id="workersOffline">—</span> offline</div></div>
- </div>
+    <section id="loginView" class="login-wrap">
+      <div class="panel">
+        <h2>Welcome to BTCPOOL</h2>
+        <p class="muted">Open your mining dashboard.</p>
 
- <div class="section-head"><h2>Account Details</h2><span class="muted">Address-based account</span></div>
- <div class="two-col">
-  <section class="panel">
-   <h3>Miner Statistics</h3>
-   <div class="rowline"><span>Account ID / BTC Address</span><strong id="accountAddress">—</strong></div>
-   <div class="rowline"><span>Total Workers</span><strong id="workersTotal">—</strong></div>
-   <div class="rowline"><span>Miner Status</span><strong id="minerStatus">Unknown</strong></div>
-   <div class="rowline"><span>Last Update</span><strong id="lastUpdate">—</strong></div>
-   <div class="rowline"><span>Minimum Payout</span><strong>0.001 BTC</strong></div>
-   <div class="rowline"><span>Bitcoin Payout Address</span><strong id="payoutAddress">—</strong></div>
-   <div class="notice">Real mining statistics and earnings will appear after the pool API is connected. Offline status alone does not mean the unpaid balance is zero.</div>
-  </section>
+        <form id="loginForm">
+          <div class="field">
+            <label for="btcAddress">Bitcoin Address</label>
+            <input id="btcAddress" name="btcAddress"
+              placeholder="Enter your BTC address"
+              autocomplete="off" required>
+          </div>
 
-  <section class="panel">
-   <h3>Miner Connection Guide</h3>
-   <p class="muted">Choose a server and enter the worker details in your mining device.</p>
-   <div class="server">
-    <div class="server-top"><span class="server-title">Russia</span><span class="badge">3333</span></div>
-    <div class="endpoint"><code>stratum+tcp://btc-ru.pecpool.com:3333</code><button class="btn secondary small copy" data-copy="stratum+tcp://btc-ru.pecpool.com:3333">Copy</button></div>
-   </div>
-   <div class="server">
-    <div class="server-top"><span class="server-title">Iran</span><span class="badge">8443</span></div>
-    <div class="endpoint"><code>stratum+tcp://btc-ir.pecpool.com:8443</code><button class="btn secondary small copy" data-copy="stratum+tcp://btc-ir.pecpool.com:8443">Copy</button></div>
-   </div>
-   <div class="server">
-    <div class="server-top"><span class="server-title">Asia</span><span class="badge">8443</span></div>
-    <div class="endpoint"><code>stratum+tcp://btc-as.pecpool.com:8443</code><button class="btn secondary small copy" data-copy="stratum+tcp://btc-as.pecpool.com:8443">Copy</button></div>
-   </div>
-   <label class="field-label">Worker Username</label>
-   <div class="endpoint"><code id="workerUsername">btpool.YOUR_BTC_ADDRESS</code><button class="btn secondary small" id="copyUsername">Copy</button></div>
-   <label class="field-label">Worker Password</label>
-   <div class="endpoint"><code>x</code><button class="btn secondary small copy" data-copy="x">Copy</button></div>
-   <div class="notice">Worker format is <code>btpool.</code> followed by your address. These are PECPool endpoints, not independent BTCPOOL servers.</div>
-  </section>
- </div>
+          <button class="btn primary full" type="submit">Open Dashboard</button>
+        </form>
 
- <div class="section-head"><h2>Payments</h2><span class="muted">Pool-reported information only</span></div>
- <section class="panel">
-  <div class="rowline"><span>Automatic Payout Threshold</span><strong>0.001 BTC</strong></div>
-  <div class="rowline"><span>Estimated Balance</span><strong id="paymentBalance">—</strong></div>
-  <div class="rowline"><span>Payment Status</span><strong id="paymentStatus">Not connected</strong></div>
-  <div class="notice">Automatic payouts require a real payout system operated by the backend or pool. This website alone cannot send Bitcoin. The threshold shown here is a requested setting, not proof that automatic payments are enabled.</div>
-  <h3 style="margin-top:22px">Payment Transactions</h3>
-  <div class="table-wrap"><table><thead><tr><th>Date</th><th>Amount (BTC)</th><th>Status</th><th>Transaction ID</th></tr></thead><tbody id="transactions"><tr><td colspan="4" class="muted">Connect the pool API to load transactions.</td></tr></tbody></table></div>
- </section>
+        <div class="notice" style="margin-top:16px">
+          This address is stored locally in this browser for dashboard convenience.
+          It does not authenticate your identity with the pool or filter the API
+          response to your personal account.
+        </div>
+        <div id="loginError" class="error"></div>
+      </div>
+    </section>
 
- <div class="section-head" id="settings"><h2>Settings</h2><span class="muted">At the bottom of the dashboard</span></div>
- <section class="panel">
-  <h3>Color Themes</h3>
-  <p class="muted">Choose your preferred dashboard colors.</p>
-  <div class="theme-list">
-   <button class="theme-btn active" data-theme="ice"><div class="swatch" style="background:#eaf5ff"></div>Ice Blue</button>
-   <button class="theme-btn" data-theme="sky"><div class="swatch" style="background:#dceeff"></div>Sky</button>
-   <button class="theme-btn" data-theme="mint"><div class="swatch" style="background:#e5f8ef"></div>Mint</button>
-   <button class="theme-btn" data-theme="lavender"><div class="swatch" style="background:#f0edff"></div>Lavender</button>
-   <button class="theme-btn" data-theme="rose"><div class="swatch" style="background:#fff0f2"></div>Rose</button>
-   <button class="theme-btn" data-theme="sand"><div class="swatch" style="background:#fbf2e3"></div>Sand</button>
-   <button class="theme-btn" data-theme="dark"><div class="swatch" style="background:#101827"></div>Dark</button>
-   <button class="theme-btn" data-theme="navy"><div class="swatch" style="background:#e5ecff"></div>Navy Blue</button>
-   <button class="theme-btn" data-theme="teal"><div class="swatch" style="background:#e0f7f6"></div>Teal</button>
-   <button class="theme-btn" data-theme="graphite"><div class="swatch" style="background:#e9edf2"></div>Graphite</button>
-  </div>
-  <h3 style="margin-top:25px">Account Settings</h3>
-  <div class="rowline"><span>Fixed Account / BTC Address</span><strong id="settingsAddress">—</strong></div>
-  <div class="rowline"><span>Worker Username</span><strong id="settingsWorker">—</strong></div>
-  <div class="actions">
-   <button class="btn secondary" id="refreshButton">Refresh Statistics</button>
-   <button class="btn secondary" id="logoutButton">Log Out</button>
-  </div>
-  <div id="message" class="muted"></div>
- </section>
-</main>
-<footer>BTCPOOL · Bitcoin Mining Dashboard</footer>
-</div>
+    <section id="dashboardView" class="hidden">
+      <div class="panel">
+        <div class="section-title">
+          <div>
+            <h2>Pool Connection</h2>
+            <div class="subtitle" id="connectionText">Connecting to pool API...</div>
+          </div>
+          <div class="status-line">
+            <span class="dot yellow" id="connectionDot"></span>
+            <span id="connectionStatus">Connecting</span>
+          </div>
+        </div>
 
-<script>
-"use strict";
+        <div class="notice">
+          The API currently returns the PECPool farm/account summary for
+          <strong>btpool</strong>. These figures are not verified as personal
+          balances for the Bitcoin address entered above. API refreshes do not
+          guarantee that the pool's underlying statistics have also refreshed.
+        </div>
+      </div>
 
-/*
-  FRONTEND-ONLY STARTER
-  No API credentials or admin password are stored here.
-  Account entry is a convenience, NOT secure authentication.
-  Live pool statistics, admin access, transaction history, and automatic
-  payouts require a secure backend and are intentionally not fabricated.
-*/
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Estimated Balance</div>
+          <div class="stat-value" id="balanceBTC">— BTC</div>
+          <div class="stat-note" id="balanceUSD">USD value: —</div>
+        </div>
 
-const $ = id => document.getElementById(id);
+        <div class="stat-card">
+          <div class="stat-label">Estimated Earnings · 24h</div>
+          <div class="stat-value" id="earnings24h">— BTC</div>
+          <div class="stat-note" id="earningsNote">Waiting for pool earnings data</div>
+        </div>
 
-const themes = {
- ice:{bg:"#eaf5ff",card:"#fff",soft:"#f4f9ff",border:"#d5e6f5",text:"#17324d",muted:"#6d849b",accent:"#1688e8",accent2:"#dff0ff",good:"#13895e",bad:"#d94354",shadow:"0 5px 22px rgba(34,92,143,.07)"},
- sky:{bg:"#dceeff",card:"#fafdff",soft:"#edf7ff",border:"#bfdcf5",text:"#123b60",muted:"#547894",accent:"#0876cf",accent2:"#d3eaff",good:"#087d56",bad:"#c8384b",shadow:"0 5px 22px rgba(20,90,150,.08)"},
- mint:{bg:"#e5f8ef",card:"#fff",soft:"#f1fbf6",border:"#cbe9d9",text:"#204638",muted:"#6b8b7b",accent:"#15976b",accent2:"#d8f5e7",good:"#128257",bad:"#c93f50",shadow:"0 5px 22px rgba(25,110,80,.07)"},
- lavender:{bg:"#f0edff",card:"#fff",soft:"#f7f5ff",border:"#dcd6fa",text:"#342c59",muted:"#8179a2",accent:"#7761df",accent2:"#e9e4ff",good:"#16845e",bad:"#d04457",shadow:"0 5px 22px rgba(95,75,160,.07)"},
- rose:{bg:"#fff0f2",card:"#fff",soft:"#fff7f8",border:"#f3d6dc",text:"#512c37",muted:"#9a737e",accent:"#d74c73",accent2:"#ffe1e9",good:"#15835e",bad:"#cb344c",shadow:"0 5px 22px rgba(150,60,90,.06)"},
- sand:{bg:"#fbf2e3",card:"#fffdf8",soft:"#fff8eb",border:"#eadcc4",text:"#493b29",muted:"#938069",accent:"#b77928",accent2:"#f7e6c8",good:"#278058",bad:"#cb4a4a",shadow:"0 5px 22px rgba(130,90,35,.06)"},
- dark:{bg:"#0b1220",card:"#111c2d",soft:"#0d1726",border:"#27364c",text:"#edf4ff",muted:"#8da0ba",accent:"#55a7ff",accent2:"#183453",good:"#40d6a0",bad:"#ff7280",shadow:"0 5px 22px rgba(0,0,0,.14)"},
- navy:{bg:"#e5ecff",card:"#fff",soft:"#f1f4ff",border:"#cbd6f5",text:"#1b2e58",muted:"#7181a8",accent:"#355dc8",accent2:"#dce5ff",good:"#14855d",bad:"#ce4353",shadow:"0 5px 22px rgba(40,65,140,.07)"},
- teal:{bg:"#e0f7f6",card:"#fff",soft:"#effbfa",border:"#c7e9e7",text:"#174342",muted:"#658987",accent:"#078f91",accent2:"#d3f3f0",good:"#16855d",bad:"#d04353",shadow:"0 5px 22px rgba(10,110,110,.06)"},
- graphite:{bg:"#e9edf2",card:"#fff",soft:"#f5f7fa",border:"#d3dbe5",text:"#263342",muted:"#788594",accent:"#536b84",accent2:"#dfe7f0",good:"#18805a",bad:"#c84151",shadow:"0 5px 22px rgba(35,50,70,.07)"}
-};
+        <div class="stat-card">
+          <div class="stat-label">Hashrate · 1h</div>
+          <div class="stat-value" id="hashrate1h">— TH/s</div>
+          <div class="stat-note">Pool-reported average</div>
+        </div>
 
-function applyTheme(name){
- const t=themes[name]||themes.ice;
- const css={bg:"--bg",card:"--card",soft:"--soft",border:"--border",text:"--text",muted:"--muted",accent:"--accent",accent2:"--accent2",good:"--good",bad:"--bad",shadow:"--shadow"};
- Object.entries(t).forEach(([k,v])=>document.documentElement.style.setProperty(css[k],v));
- localStorage.setItem("btcpool_theme",name);
- document.querySelectorAll(".theme-btn").forEach(b=>b.classList.toggle("active",b.dataset.theme===name));
-}
-document.querySelectorAll(".theme-btn").forEach(b=>b.addEventListener("click",()=>applyTheme(b.dataset.theme)));
-applyTheme(localStorage.getItem("btcpool_theme")||"ice");
+        <div class="stat-card">
+          <div class="stat-label">Hashrate · 12h</div>
+          <div class="stat-value" id="hashrate12h">— TH/s</div>
+          <div class="stat-note">Not supplied by the current API</div>
+        </div>
 
-function validAddress(a){
- return /^(bc1[ac-hj-np-z02-9]{11,87}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/i.test(a);
-}
+        <div class="stat-card">
+          <div class="stat-label">Hashrate · 24h</div>
+          <div class="stat-value" id="hashrate24h">— TH/s</div>
+          <div class="stat-note">Pool-reported average</div>
+        </div>
 
-let currentAddress="";
-function openDashboard(){
- const a=$("loginAddress").value.trim();
- if(!validAddress(a)){
-  $("loginMessage").textContent="Please enter a valid Bitcoin address.";
-  return;
- }
- currentAddress=a;
- $("loginView").style.display="none";
- $("dashboard").style.display="block";
- $("headerAccount").textContent=a.slice(0,8)+"…"+a.slice(-5);
- $("accountAddress").textContent=a;
- $("payoutAddress").textContent=a;
- $("settingsAddress").textContent=a;
- $("workerUsername").textContent="btpool."+a;
- $("settingsWorker").textContent="btpool."+a;
- $("apiStatus").textContent="API not connected";
- $("message").textContent="Dashboard ready. Live mining statistics will be available after the pool API is connected.";
-}
-$("loginButton").addEventListener("click",openDashboard);
-$("loginAddress").addEventListener("keydown",e=>{if(e.key==="Enter")openDashboard()});
+        <div class="stat-card">
+          <div class="stat-label">Workers Online / Offline</div>
+          <div class="stat-value">
+            <span class="success" id="workersOnline">—</span>
+            <span class="muted"> / </span>
+            <span style="color:var(--danger)" id="workersOffline">—</span>
+          </div>
+          <div class="stat-note" id="workersTotal">Total workers: —</div>
+        </div>
+      </div>
 
-function copyText(text){
- if(navigator.clipboard && window.isSecureContext){
-  return navigator.clipboard.writeText(text);
- }
- return new Promise((resolve,reject)=>{
-  const el=document.createElement("textarea");
-  el.value=text;document.body.appendChild(el);el.select();
-  const ok=document.execCommand("copy");el.remove();
-  ok?resolve():reject(new Error("Copy failed"));
- });
-}
-document.querySelectorAll("[data-copy]").forEach(b=>{
- b.addEventListener("click",async()=>{
-  const old=b.textContent;
-  try{await copyText(b.dataset.copy);b.textContent="Copied";}
-  catch(e){b.textContent="Failed";}
-  setTimeout(()=>b.textContent=old,1200);
- });
-});
-$("copyUsername").addEventListener("click",async()=>{
- const b=$("copyUsername"),old=b.textContent;
- try{await copyText($("workerUsername").textContent);b.textContent="Copied";}
- catch(e){b.textContent="Failed";}
- setTimeout(()=>b.textContent=old,1200);
-});
+      <div class="content-grid">
+        <section class="panel">
+          <div class="section-title"><h2>Account Details</h2></div>
 
-$("refreshButton").addEventListener("click",()=>{
- $("apiStatus").textContent="API not connected";
- $("message").textContent="No pool API is configured yet. No live statistics or earnings have been invented.";
-});
-$("logoutButton").addEventListener("click",()=>{
- currentAddress="";
- $("dashboard").style.display="none";
- $("loginView").style.display="block";
- $("loginAddress").value="";
- $("loginMessage").textContent="You have logged out.";
- $("headerAccount").textContent="Not signed in";
-});
-</script>
+          <div class="detail-row">
+            <span>Dashboard Address</span>
+            <strong id="accountAddress">—</strong>
+          </div>
+          <div class="detail-row">
+            <span>API Farm Name</span>
+            <strong id="farmName">—</strong>
+          </div>
+          <div class="detail-row">
+            <span>Coin</span>
+            <strong id="coinName">Bitcoin</strong>
+          </div>
+          <div class="detail-row">
+            <span>Mining Hashrate</span>
+            <strong id="mainHashrate">— TH/s</strong>
+          </div>
+          <div class="detail-row">
+            <span>Pool API Response</span>
+            <strong id="apiUpdated">Not fetched yet</strong>
+          </div>
+          <div class="detail-row">
+            <span>Pool Statistics Updated</span>
+            <strong id="poolUpdated">Not available</strong>
+          </div>
+          <div class="detail-row">
+            <span>Last Successful Fetch</span>
+            <strong id="lastSuccess">Not available</strong>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="section-title"><h2>Miner Connection Guide</h2></div>
+
+          <div class="notice" style="margin-bottom:12px">
+            These are the configured PECPool endpoints. This page displays
+            connection details; it cannot verify whether your mining hardware
+            is connected or submit mining shares.
+          </div>
+
+          <div class="server">
+            <div class="server-name">Iran Server</div>
+            <code>btc-ir.pecpool.com:8443</code>
+            <button class="btn" type="button" data-copy="btc-ir.pecpool.com:8443"
+              style="float:right;padding:6px 9px">Copy</button>
+          </div>
+
+          <div class="server">
+            <div class="server-name">Russia Server</div>
+            <code>btc-ru.pecpool.com:3333</code>
+            <button class="btn" type="button" data-copy="btc-ru.pecpool.com:3333"
+              style="float:right;padding:6px 9px">Copy</button>
+          </div>
+
+          <div class="server">
+            <div class="server-name">Asia Server</div>
+            <code>btc-as.pecpool.com:8443</code>
+            <button class="btn" type="button" data-copy="btc-as.pecpool.com:8443"
+              style="float:right;padding:6px 9px">Copy</button>
+          </div>
+
+          <div class="detail-row">
+            <span>Worker Username</span>
+            <strong id="workerUsername">—</strong>
+          </div>
+          <div class="detail-row">
+            <span>Worker Password</span>
+            <strong>x</strong>
+          </div>
+          <div class="detail-row">
+            <span>Minimum Withdrawal (display setting)</span>
+            <strong>0.001 BTC</strong>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel" style="margin-bottom:16px">
+        <div class="section-title">
+          <h2>Payments & Earnings Records</h2>
+        </div>
+        <div class="muted" id="recordsStatus" style="margin-bottom:12px">
+          Waiting for API data...
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date (UTC)</th>
+                <th>BTC Amount</th>
+                <th>USD Value</th>
+                <th>Record Type</th>
+              </tr>
+            </thead>
+            <tbody id="recordsBody">
+              <tr><td colspan="4">No records loaded yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel hidden" id="settingsPanel" style="margin-bottom:16px">
+        <div class="section-title">
+          <h2>Settings</h2>
+          <button class="btn" type="button" id="closeSettingsBtn">Close</button>
+        </div>
+
+        <h3 style="font-size:14px">Choose Theme</h3>
+        <div class="theme-grid" id="themeGrid">
+          <button class="theme-btn active" data-theme-choice="light" type="button">
+            <span class="theme-swatch" style="background:#2377ee"></span>Light Blue
+          </button>
+          <button class="theme-btn" data-theme-choice="dark" type="button">
+            <span class="theme-swatch" style="background:#4a91ff"></span>Dark
+          </button>
+          <button class="theme-btn" data-theme-choice="green" type="button">
+            <span class="theme-swatch" style="background:#17844a"></span>Green
+          </button>
+          <button class="theme-btn" data-theme-choice="purple" type="button">
+            <span class="theme-swatch" style="background:#8252d6"></span>Purple
+          </button>
+          <button class="theme-btn" data-theme-choice="orange" type="button">
+            <span class="theme-swatch" style="background:#e47a21"></span>Orange
+          </button>
+          <button class="theme-btn" data-theme-choice="red" type="button">
+            <span class="theme-swatch" style="background:#d94255"></span>Red
+          </button>
+          <button class="theme-btn" data-theme-choice="cyan" type="button">
+            <span class="theme-swatch" style="background:#0797b7"></span>Cyan
+          </button>
+          <button class="theme-btn" data-theme-choice="gold" type="button">
+            <span class="theme-swatch" style="background:#ad841c"></span>Gold
+          </button>
+          <button class="theme-btn" data-theme-choice="rose" type="button">
+            <span class="theme-swatch" style="background:#d94d91"></span>Rose
+          </button>
+          <button class="theme-btn" data-theme-choice="slate" type="button">
+            <span class="theme-swatch" style="background:#526c87"></span>Slate
+          </button>
+        </div>
+
+        <div class="notice" style="margin-top:18px">
+          Theme preferences are stored in this browser. This page does not
+          implement secure user authentication, password changes, real
+          withdrawals, or account registration. Those features require a
+          separate secure backend.
+        </div>
+      </section>
+
+      <div id="pageMessage" class="notice hidden" role="status"></div>
+    </section>
+
+    <footer class="footer">BTCPOOL · Bitcoin Mining Pool Dashboard</footer>
+  </main>
+
+  <script>
+    "use strict";
+
+    const API_URL =
+      "https://juizoasgdtisnesiojqi.supabase.co/functions/v1/hyper-endpoint";
+
+    const REFRESH_INTERVAL_MS = 60_000;
+
+    let refreshTimer = null;
+    let requestInProgress = false;
+    let lastSuccessfulData = null;
+    let lastSuccessfulFetch = null;
+    let currentAddress = "";
+
+    const $ = (id) => document.getElementById(id);
+
+    function setText(id, value) {
+      const element = $(id);
+      if (element) element.textContent = String(value);
+    }
+
+    function formatBTC(value) {
+      if (value === null || value === undefined || value === "") return "—";
+      const number = Number(value);
+      if (!Number.isFinite(number)) return "—";
+      return number.toFixed(8);
+    }
+
+    function formatUSD(value) {
+      if (value === null || value === undefined || value === "") return "—";
+      const number = Number(value);
+      if (!Number.isFinite(number)) return "—";
+      return number.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function formatHashrate(value) {
+      if (value === null || value === undefined || value === "") return "—";
+      const number = Number(value);
+      if (!Number.isFinite(number)) return "—";
+      return number.toLocaleString("en-US", {
+        maximumFractionDigits: 6
+      });
+    }
+
+    function formatDate(value) {
+      if (!value) return "Not available";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "Not available";
+      return date.toLocaleString("en-GB", {
+        timeZone: "UTC",
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+      }) + " UTC";
+    }
+
+    function setConnection(status, color, message) {
+      setText("connectionStatus", status);
+      setText("connectionText", message);
+      $("connectionDot").className = "dot " + color;
+    }
+
+    function showMessage(message) {
+      const box = $("pageMessage");
+      box.textContent = message;
+      box.classList.remove("hidden");
+    }
+
+    function hideMessage() {
+      $("pageMessage").textContent = "";
+      $("pageMessage").classList.add("hidden");
+    }
+
+    function getNumeric(object, keys) {
+      for (const key of keys) {
+        if (object && object[key] !== null &&
+            object[key] !== undefined && object[key] !== "") {
+          const number = Number(object[key]);
+          if (Number.isFinite(number)) return number;
+        }
+      }
+      return null;
+    }
+
+    function getValue(object, keys) {
+      for (const key of keys) {
+        if (object && object[key] !== null &&
+            object[key] !== undefined && object[key] !== "") {
+          return object[key];
+        }
+      }
+      return null;
+    }
+
+    function unwrapResponse(json) {
+      if (!json || typeof json !== "object") {
+        throw new Error("The API returned an invalid response.");
+      }
+
+      if (json.ok === false || json.success === false) {
+        throw new Error(json.message || json.error || "The API reported an error.");
+      }
+
+      let root = json.data && typeof json.data === "object"
+        ? json.data
+        : json;
+
+      // Supports both {data:{farm,accounts}} and
+      // {data:{success:true,data:{farm,accounts}}}.
+      if (root.data && typeof root.data === "object") {
+        root = root.data;
+      }
+
+      if (root.success === false) {
+        throw new Error(root.message || root.error || "The pool request failed.");
+      }
+
+      const farm = root.farm || root.pool ||
+        (root.data && (root.data.farm || root.data.pool)) || {};
+
+      const accounts = Array.isArray(root.accounts) ? root.accounts :
+        (root.data && Array.isArray(root.data.accounts) ? root.data.accounts : []);
+
+      const account =
+        accounts.find(item => String(item.account || "").toLowerCase() === "btpool") ||
+        accounts[0] || {};
+
+      const summary = account.summary || account;
+      const earnings = account.earnings || {};
+      const payouts = account.payouts || {};
+
+      return {
+        source: json.source || root.source || "Pool API",
+        fetchedAt: json.fetchedAt || root.fetchedAt || root.serverTimeUtc || null,
+        farm,
+        account,
+        summary,
+        earnings: Array.isArray(earnings.items) ? earnings.items : [],
+        payouts: Array.isArray(payouts.items) ? payouts.items : []
+      };
+    }
+
+    function calculateRecentEarnings(items) {
+      const now = Date.now();
+      const windowStart = now - 24 * 60 * 60 * 1000;
+      let totalBTC = 0;
+      let totalUSD = 0;
+      let hasBTC = false;
+      let hasUSD = false;
+      let count = 0;
+
+      for (const item of items) {
+        const rawDate = item.dateUtc || item.date || item.timestamp;
+        if (!rawDate) continue;
+
+        const date = new Date(rawDate);
+        if (Number.isNaN(date.getTime())) continue;
+
+        if (date.getTime() < windowStart || date.getTime() > now) continue;
+
+        const btc = getNumeric(item, ["earnBTC", "amountBTC", "btc"]);
+        const usd = getNumeric(item, ["earnUSD", "amountUSD", "usd"]);
+
+        if (btc !== null) {
+          totalBTC += btc;
+          hasBTC = true;
+        }
+        if (usd !== null) {
+          totalUSD += usd;
+          hasUSD = true;
+        }
+        count++;
+      }
+
+      return {
+        btc: count > 0 && hasBTC ? totalBTC : null,
+        usd: count > 0 && hasUSD ? totalUSD : null,
+        count
+      };
+    }
+
+    function renderDashboard(result) {
+      const farm = result.farm;
+      const summary = result.summary;
+
+      const balanceBTC = getValue(summary, ["balanceBTC"]) ??
+        getValue(farm, ["balanceBTC"]);
+      const balanceUSD = getValue(summary, ["balanceUSD"]) ??
+        getValue(farm, ["balanceUSD"]);
+
+      const hashrate1h = getNumeric(summary, ["hashrate1hTHs", "hashrate1h"]) ??
+        getNumeric(farm, ["hashrate1hTHs", "hashrate1h"]);
+
+      const hashrate24h = getNumeric(summary, ["hashrate24hTHs", "hashrate24h"]) ??
+        getNumeric(farm, ["hashrate24hTHs", "hashrate24h"]);
+
+      const online = getNumeric(summary, ["workersOnline", "onlineWorkers"]) ??
+        getNumeric(farm, ["onlineWorkers", "workersOnline"]);
+
+      const offline = getNumeric(summary, ["workersOffline", "offlineWorkers"]) ??
+        getNumeric(farm, ["offlineWorkers", "workersOffline"]);
+
+      const total = getNumeric(summary, ["workersTotal", "totalWorkers"]) ??
+        getNumeric(farm, ["totalWorkers", "totalWorkersCount"]);
+
+      setText("balanceBTC", formatBTC(balanceBTC) + " BTC");
+      setText("balanceUSD", "USD value: " + formatUSD(balanceUSD));
+      setText("hashrate1h", formatHashrate(hashrate1h) + " TH/s");
+      setText("hashrate24h", formatHashrate(hashrate24h) + " TH/s");
+      setText("hashrate12h", "— TH/s");
+      setText("mainHashrate", formatHashrate(hashrate24h) + " TH/s");
+
+      setText("workersOnline", online === null ? "—" : online);
+      setText("workersOffline", offline === null ? "—" : offline);
+      setText("workersTotal",
+        "Total workers: " + (total === null ? "—" : total));
+
+      setText("farmName",
+        getValue(farm, ["farmName", "name"]) ||
+        getValue(summary, ["account"]) || "btpool");
+
+      setText("coinName",
+        getValue(farm, ["coin"]) || "Bitcoin");
+
+      setText("apiUpdated", formatDate(result.fetchedAt));
+      setText("poolUpdated", formatDate(
+        getValue(summary, ["lastUpdateUtc", "lastUpdate"]) ||
+        getValue(farm, ["lastUpdateUtc", "lastUpdate"])
+      ));
+
+      setText("lastSuccess", formatDate(lastSuccessfulFetch));
+
+      const recent = calculateRecentEarnings(result.earnings);
+
+      if (recent.btc !== null) {
+        setText("earnings24h", formatBTC(recent.btc) + " BTC");
+        setText("earningsNote",
+          "Based on " + recent.count + " pool record(s) dated within the last 24 hours" +
+          (recent.usd !== null ? " · " + formatUSD(recent.usd) : ""));
+      } else {
+        setText("earnings24h", "— BTC");
+        setText("earningsNote",
+          "No earnings records dated within the last 24 hours");
+      }
+
+      renderRecords(result);
+    }
+
+    function renderRecords(result) {
+      const body = $("recordsBody");
+      body.replaceChildren();
+
+      const records = [];
+
+      for (const item of result.earnings) {
+        records.push({
+          date: item.dateUtc || item.date || item.timestamp || null,
+          btc: getValue(item, ["earnBTC", "amountBTC", "btc"]),
+          usd: getValue(item, ["earnUSD", "amountUSD", "usd"]),
+          type: "Earnings"
+        });
+      }
+
+      for (const item of result.payouts) {
+        records.push({
+          date: item.dateUtc || item.date || item.timestamp || null,
+          btc: getValue(item, ["amountBTC", "paidBTC", "payoutBTC", "btc"]),
+          usd: getValue(item, ["amountUSD", "paidUSD", "payoutUSD", "usd"]),
+          type: "Payout"
+        });
+      }
+
+      records.sort((a, b) => {
+        const da = a.date ? new Date(a.date).getTime() : 0;
+        const db = b.date ? new Date(b.date).getTime() : 0;
+        return db - da;
+      });
+
+      if (!records.length) {
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 4;
+        cell.textContent = "No earnings or payout records were returned by the API.";
+        row.appendChild(cell);
+        body.appendChild(row);
+        setText("recordsStatus", "No records available.");
+        return;
+      }
+
+      for (const record of records) {
+        const row = document.createElement("tr");
+        const values = [
+          formatDate(record.date),
+          record.btc === null ? "—" : formatBTC(record.btc) + " BTC",
+          record.usd === null ? "—" : formatUSD(record.usd),
+          record.type
+        ];
+
+        for (const value of values) {
+          const cell = document.createElement("td");
+          cell.textContent = value;
+          row.appendChild(cell);
+        }
+
+        body.appendChild(row);
+      }
+
+      setText("recordsStatus", records.length + " record(s) received from the API.");
+    }
+
+    async function refreshStatistics(manual = false) {
+      if (requestInProgress) return;
+      requestInProgress = true;
+
+      const button = $("refreshBtn");
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Refreshing...";
+      }
+
+      setConnection(
+        lastSuccessfulData ? "Refreshing" : "Connecting",
+        "yellow",
+        "Requesting current data from Supabase..."
+      );
+
+      try {
+        const response = await fetch(API_URL, {
+          method: "GET",
+          headers: { "Accept": "application/json" },
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error("API returned HTTP " + response.status);
+        }
+
+        const json = await response.json();
+        const result = unwrapResponse(json);
+
+        lastSuccessfulFetch = new Date().toISOString();
+        lastSuccessfulData = result;
+
+        renderDashboard(result);
+
+        setConnection(
+          "Connected",
+          "green",
+          "Data received from " + result.source
+        );
+        hideMessage();
+
+      } catch (error) {
+        console.error("BTCPOOL API error:", error);
+
+        setConnection(
+          "Connection Error",
+          "red",
+          "Could not refresh pool statistics"
+        );
+
+        if (lastSuccessfulData) {
+          // Preserve the last successful values on screen.
+          setText("lastSuccess", formatDate(lastSuccessfulFetch));
+          showMessage(
+            "The latest API request failed. The last successful statistics remain on screen. " +
+            "Error: " + (error.message || "Unknown network error")
+          );
+        } else {
+          showMessage(
+            "Unable to load pool statistics. Check the Supabase function response " +
+            "and browser CORS settings. No live statistics have been loaded yet. " +
+            "Error: " + (error.message || "Unknown network error")
+          );
+        }
+      } finally {
+        requestInProgress = false;
+        if (button) {
+          button.disabled = false;
+          button.textContent = "↻ Refresh";
+        }
+      }
+    }
+
+    function validBitcoinAddress(address) {
+      // Basic format check only; this is not cryptographic address validation.
+      return /^(bc1[ac-hj-np-z02-9]{11,87}|[13][a-km-zA-HJ-NP-Z1-9]{25,34})$/.test(address);
+    }
+
+    function openDashboard(address) {
+      currentAddress = address;
+
+      setText("accountAddress", address);
+      setText("workerUsername", "btpool." + address);
+
+      $("loginView").classList.add("hidden");
+      $("dashboardView").classList.remove("hidden");
+      $("dashboardActions").classList.remove("hidden");
+
+      try {
+        localStorage.setItem("btcpool_address", address);
+      } catch (_) {}
+
+      refreshStatistics(false);
+
+      if (refreshTimer) clearInterval(refreshTimer);
+      refreshTimer = setInterval(() => {
+        if (!$("dashboardView").classList.contains("hidden")) {
+          refreshStatistics(false);
+        }
+      }, REFRESH_INTERVAL_MS);
+    }
+
+    function logout() {
+      if (refreshTimer) {
+        clearInterval(refreshTimer);
+        refreshTimer = null;
+      }
+
+      currentAddress = "";
+      lastSuccessfulData = null;
+      lastSuccessfulFetch = null;
+
+      try {
+        localStorage.removeItem("btcpool_address");
+      } catch (_) {}
+
+      $("dashboardView").classList.add("hidden");
+      $("dashboardActions").classList.add("hidden");
+      $("settingsPanel").classList.add("hidden");
+      $("loginView").classList.remove("hidden");
+
+      setConnection("Disconnected", "", "Not connected");
+    }
+
+    function applyTheme(theme) {
+      const validThemes = [
+        "light", "dark", "green", "purple", "orange",
+        "red", "cyan", "gold", "rose", "slate"
+      ];
+
+      const chosen = validThemes.includes(theme) ? theme : "light";
+      document.body.setAttribute("data-theme", chosen);
+
+      try {
+        localStorage.setItem("btcpool_theme", chosen);
+      } catch (_) {}
+
+      document.querySelectorAll("[data-theme-choice]").forEach(button => {
+        button.classList.toggle(
+          "active",
+          button.getAttribute("data-theme-choice") === chosen
+        );
+      });
+    }
+
+    $("loginForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const address = $("btcAddress").value.trim();
+      $("loginError").textContent = "";
+
+      if (!validBitcoinAddress(address)) {
+        $("loginError").textContent =
+          "Please enter a Bitcoin address in a supported format.";
+        return;
+      }
+
+      openDashboard(address);
+    });
+
+    $("refreshBtn").addEventListener("click", () => {
+      refreshStatistics(true);
+    });
+
+    $("logoutBtn").addEventListener("click", logout);
+
+    $("settingsBtn").addEventListener("click", () => {
+      $("settingsPanel").classList.toggle("hidden");
+    });
+
+    $("closeSettingsBtn").addEventListener("click", () => {
+      $("settingsPanel").classList.add("hidden");
+    });
+
+    $("themeGrid").addEventListener("click", event => {
+      const button = event.target.closest("[data-theme-choice]");
+      if (!button) return;
+      applyTheme(button.getAttribute("data-theme-choice"));
+    });
+
+    document.addEventListener("click", async event => {
+      const button = event.target.closest("[data-copy]");
+      if (!button) return;
+
+      const value = button.getAttribute("data-copy");
+
+      try {
+        await navigator.clipboard.writeText(value);
+        const oldText = button.textContent;
+        button.textContent = "Copied";
+        setTimeout(() => { button.textContent = oldText; }, 1200);
+      } catch (_) {
+        showMessage("Clipboard access failed. Please copy the server address manually: " + value);
+      }
+    });
+
+    // Restore theme and the locally saved dashboard address.
+    try {
+      applyTheme(localStorage.getItem("btcpool_theme") || "light");
+
+      const savedAddress = localStorage.getItem("btcpool_address");
+      if (savedAddress && validBitcoinAddress(savedAddress)) {
+        $("btcAddress").value = savedAddress;
+      }
+    } catch (_) {
+      applyTheme("light");
+    }
+  </script>
 </body>
 </html>
+```
